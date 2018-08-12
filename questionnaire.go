@@ -41,7 +41,7 @@ func askForPassword() string {
 	return strings.TrimSpace(password)
 }
 
-func askForInt() int {
+func askForPasswordLength() int {
 	length := 0
 
 	prompt := &survey.Input{

@@ -9,7 +9,7 @@ func main() {
 
 	password := askForPassword()
 
-	pwdLength := askForInt()
+	pwdLength := askForPasswordLength()
 
 	pool := askForCharPool()
 
