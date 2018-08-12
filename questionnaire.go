@@ -1,67 +1,70 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"log"
+	"errors"
 	"os"
 	"strconv"
 	"strings"
-	"syscall"
 
-	"golang.org/x/crypto/ssh/terminal"
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 
-func askForString(question string, errorString string) string {
-	var out string
-	scanner := bufio.NewScanner(os.Stdin)
+func askForKeyName() string {
+	name := ""
 
-	fmt.Print(question)
-	for scanner.Scan() {
-		if len(scanner.Text()) > 0 {
-			out = scanner.Text()
-			break
-		} else {
-			fmt.Print(errorString)
-		}
+	prompt := &survey.Input{
+		Message: "Enter key name for password:",
 	}
 
-	return strings.TrimSpace(out)
+	err := survey.AskOne(prompt, &name, survey.MinLength(1))
+
+	if err != nil {
+		os.Exit(1)
+	}
+
+	return name
 }
 
-func askForPassword(question string, errorString string) string {
-	var (
-		pwd []byte
-		err error
-	)
+func askForPassword() string {
+	password := ""
 
-	fmt.Print(question)
-	for len(pwd) == 0 {
-		pwd, err = terminal.ReadPassword(int(syscall.Stdin))
-		if err != nil {
-			log.Fatalf(errorString)
-		}
+	prompt := &survey.Password{
+		Message: "Enter Master Password:",
 	}
-	fmt.Print("\n")
 
-	return strings.TrimSpace(string(pwd))
+	err := survey.AskOne(prompt, &password, survey.MinLength(1))
+
+	if err != nil {
+		os.Exit(1)
+	}
+
+	return strings.TrimSpace(password)
 }
 
-func askForInt(question string, errorString string) (out int) {
-	scanner := bufio.NewScanner(os.Stdin)
+func askForInt() int {
+	length := 0
 
-	for out <= 0 {
-		var err error
-		fmt.Print(question)
-		scanner.Scan()
-		out, err = strconv.Atoi(scanner.Text())
-		if err != nil {
-			fmt.Println(errorString)
-		}
+	prompt := &survey.Input{
+		Message: "Enter length of Password :",
 	}
 
-	return
+	err := survey.AskOne(prompt, &length, func(val interface{}) error {
+		convertedInt, err := strconv.Atoi(val.(string))
+		if err != nil {
+			return errors.New("Entered value is not valid integer")
+		}
+
+		if convertedInt <= 0 {
+			return errors.New("Entered value is not valid integer")
+		}
+		return nil
+	})
+
+	if err != nil {
+		os.Exit(1)
+	}
+
+	return length
 }
 
 func askForCharPool() string {
@@ -70,7 +73,7 @@ func askForCharPool() string {
 		Message: "Select Character Pool Items:",
 		Options: []string{"Upper", "Lower", "Number", "Symbols"},
 	}
-	err := survey.AskOne(prompt, &charPools, nil)
+	err := survey.AskOne(prompt, &charPools, survey.Required)
 	if err != nil {
 		os.Exit(1)
 	}

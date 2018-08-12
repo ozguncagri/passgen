@@ -5,17 +5,11 @@ import (
 )
 
 func main() {
-	appName := askForString(
-		"Enter key name for password: ",
-		"Enter key name for password: ")
+	appName := askForKeyName()
 
-	password := askForPassword(
-		"Enter Master Password: ",
-		"Password read error")
+	password := askForPassword()
 
-	pwdLength := askForInt(
-		"Enter length of Password : ",
-		"Please enter proper length for password!")
+	pwdLength := askForInt()
 
 	pool := askForCharPool()
 
