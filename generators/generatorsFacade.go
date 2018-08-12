@@ -1,4 +1,4 @@
-package main
+package generators
 
 import (
 	"errors"
@@ -9,7 +9,7 @@ import (
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 
-func askForKeyName() string {
+func AskForKeyName() string {
 	name := ""
 
 	prompt := &survey.Input{
@@ -25,7 +25,7 @@ func askForKeyName() string {
 	return name
 }
 
-func askForPassword() string {
+func AskForPassword() string {
 	password := ""
 
 	prompt := &survey.Password{
@@ -41,7 +41,7 @@ func askForPassword() string {
 	return strings.TrimSpace(password)
 }
 
-func askForPasswordLength() int {
+func AskForPasswordLength() int {
 	length := 0
 
 	prompt := &survey.Input{
@@ -67,7 +67,7 @@ func askForPasswordLength() int {
 	return length
 }
 
-func askForCharPool() string {
+func AskForCharPool() string {
 	charPools := []string{}
 	prompt := &survey.MultiSelect{
 		Message: "Select Character Pool Items:",
