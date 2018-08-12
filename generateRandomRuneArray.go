@@ -2,7 +2,7 @@ package main
 
 import "math/rand"
 
-func generateRandomString(length int, scope string, seed int64) (randomRunes []rune) {
+func generateRandomRuneArray(length int, scope string, seed int64) (randomRunes []rune) {
 	pickingPool := generateRandomPool(scope)
 
 	for i := 0; i < length; i++ {

@@ -16,5 +16,5 @@ func generatePassword(pool, appName, masterPassword string, length int) string {
 		asciiNumberSum += int64(rune(v))
 	}
 
-	return string(generateRandomString(length, pool, asciiNumberSum))
+	return string(generateRandomRuneArray(length, pool, asciiNumberSum))
 }
