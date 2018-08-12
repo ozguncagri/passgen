@@ -11,7 +11,7 @@ var rootCmd = &cobra.Command{
 	Use:   "passgen",
 	Short: "Password generator for your daily usage",
 	Long:  "Password generator for your daily usage in all your apps and websites",
-	Run:   passwordGenerator,
+	Run:   generalPasswordGeneratorCommand,
 }
 
 func main() {
@@ -21,7 +21,7 @@ func main() {
 	}
 }
 
-func passwordGenerator(cmd *cobra.Command, args []string) {
+func generalPasswordGeneratorCommand(cmd *cobra.Command, args []string) {
 	appName := askForKeyName()
 	password := askForPassword()
 	pwdLength := askForPasswordLength()
