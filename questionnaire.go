@@ -32,7 +32,7 @@ func askForPassword() string {
 		Message: "Enter Master Password:",
 	}
 
-	err := survey.AskOne(prompt, &password, survey.MinLength(1))
+	err := survey.AskOne(prompt, &password, survey.MinLength(8))
 
 	if err != nil {
 		os.Exit(1)
@@ -54,8 +54,8 @@ func askForPasswordLength() int {
 			return errors.New("Entered value is not valid integer")
 		}
 
-		if convertedInt <= 0 {
-			return errors.New("Entered value is not valid integer")
+		if convertedInt < 4 {
+			return errors.New("Password should be at least 4 characters for supporting pins. (Suggested min. length 16)")
 		}
 		return nil
 	})
