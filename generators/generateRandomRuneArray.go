@@ -3,7 +3,7 @@ package generators
 import "math/rand"
 
 func generateRandomRuneArray(length int, scope string, seed int64) (randomRunes []rune) {
-	pickingPool := generateRandomPool(scope)
+	pickingPool := generateKeyboardWritableRunePool(scope)
 
 	for i := 0; i < length; i++ {
 		rand.Seed(seed + int64(i))
