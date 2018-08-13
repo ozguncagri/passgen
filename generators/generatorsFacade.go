@@ -9,11 +9,12 @@ import (
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 
+// AskForKeyName is asks for the key name for the password you are going to generate
 func AskForKeyName() string {
 	name := ""
 
 	prompt := &survey.Input{
-		Message: "Enter key name for password:",
+		Message: "What is key name for password :",
 	}
 
 	err := survey.AskOne(prompt, &name, survey.MinLength(1))
@@ -25,11 +26,12 @@ func AskForKeyName() string {
 	return name
 }
 
+// AskForPassword is asks for master password
 func AskForPassword() string {
 	password := ""
 
 	prompt := &survey.Password{
-		Message: "Enter Master Password:",
+		Message: "What is your master password :",
 	}
 
 	err := survey.AskOne(prompt, &password, survey.MinLength(8))
@@ -41,21 +43,22 @@ func AskForPassword() string {
 	return strings.TrimSpace(password)
 }
 
+// AskForPasswordLength is asks user for the length of the password that you are going to generate
 func AskForPasswordLength() int {
 	length := 0
 
 	prompt := &survey.Input{
-		Message: "Enter length of Password :",
+		Message: "What is the length of password :",
 	}
 
 	err := survey.AskOne(prompt, &length, func(val interface{}) error {
 		convertedInt, err := strconv.Atoi(val.(string))
 		if err != nil {
-			return errors.New("Entered value is not valid integer")
+			return errors.New("value is not integer")
 		}
 
 		if convertedInt < 4 {
-			return errors.New("Password should be at least 4 characters for supporting pins. (Suggested min. length 16)")
+			return errors.New("password should be at least 4 characters for supporting pins. (Suggested min. length 16)")
 		}
 		return nil
 	})
@@ -67,10 +70,11 @@ func AskForPasswordLength() int {
 	return length
 }
 
+// AskForCharPool is ask for which character group are you going to use for the password you are generating
 func AskForCharPool() string {
 	charPools := []string{}
 	prompt := &survey.MultiSelect{
-		Message: "Select Character Pool Items:",
+		Message: "Select Character Pool Items :",
 		Options: []string{"Upper", "Lower", "Number", "Symbols"},
 	}
 	err := survey.AskOne(prompt, &charPools, survey.Required)
