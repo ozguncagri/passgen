@@ -9,9 +9,9 @@ import (
 
 func GeneralPasswordGeneratorCommand(cmd *cobra.Command, args []string) {
 	appName := generators.AskForKeyName()
-	password := generators.AskForPassword()
-	pwdLength := generators.AskForPasswordLength()
 	pool := generators.AskForCharPool()
+	pwdLength := generators.AskForPasswordLength()
+	password := generators.AskForPassword()
 
 	generatedPassword := generators.GeneratePassword(pool, appName, password, pwdLength)
 
