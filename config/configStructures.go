@@ -34,4 +34,8 @@ func init() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	if GlobalConfig.Version == "" {
+		GlobalConfig.Version = "1.0"
+	}
 }
