@@ -16,6 +16,22 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
+	versionCommand := &cobra.Command{
+		Use:     "version",
+		Aliases: []string{"ver"},
+		Short:   "Print the version number of Passgen",
+		Long:    "You know every application has some version numbers. This command prints it to screen for you",
+		Run:     subcommands.Version,
+	}
+
+	suggestionsCommand := &cobra.Command{
+		Use:     "suggestions",
+		Aliases: []string{"advice", "info"},
+		Short:   "Print suggestions for using Passgen",
+		Long:    "You may need some useful suggestions for keep your account more secure with or without using Passgen",
+		Run:     subcommands.Suggestions,
+	}
+
 	generateCommand := &cobra.Command{
 		Use:     "generate",
 		Aliases: []string{"gen"},
@@ -67,7 +83,7 @@ func init() {
 		},
 	)
 
-	rootCmd.AddCommand(generateCommand, walletCommand)
+	rootCmd.AddCommand(generateCommand, walletCommand, suggestionsCommand, versionCommand)
 }
 
 func main() {
