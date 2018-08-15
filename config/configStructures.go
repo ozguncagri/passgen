@@ -20,6 +20,9 @@ type WalletItem struct {
 // GlobalConfig is application wide configuration structure variable
 var GlobalConfig PassgenConfig
 
+// Version is application's version number
+var Version = "1.0"
+
 // AddWalletItem adds new wallet item to global config
 func (pC *PassgenConfig) AddWalletItem(key, pool string, length int) {
 	pC.Wallet = append(pC.Wallet, WalletItem{
@@ -36,6 +39,6 @@ func init() {
 	}
 
 	if GlobalConfig.Version == "" {
-		GlobalConfig.Version = "1.0"
+		GlobalConfig.Version = Version
 	}
 }
