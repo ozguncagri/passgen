@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// GeneralPasswordGeneratorCommand is default command
 func GeneralPasswordGeneratorCommand(cmd *cobra.Command, args []string) {
 	appName := generators.AskForKeyName()
 	pool := generators.AskForCharPool()
