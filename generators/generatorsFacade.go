@@ -3,6 +3,7 @@ package generators
 import (
 	"errors"
 	"os"
+	"passgen/wallet"
 	"strconv"
 	"strings"
 
@@ -12,13 +13,36 @@ import (
 // AskForKeyName is asks for the key name for the password you are going to generate
 func AskForKeyName() string {
 	name := ""
-
 	prompt := &survey.Input{
 		Message: "What is key name for password :",
 	}
 
-	err := survey.AskOne(prompt, &name, survey.MinLength(1))
+	err := survey.AskOne(prompt, &name, survey.MinLength(3))
+	if err != nil {
+		os.Exit(1)
+	}
 
+	return name
+}
+
+// AskKeyNameForWallet is asks for the key name for the password you are going to generate and checks it in global wallet
+func AskKeyNameForWallet() string {
+	name := ""
+	prompt := &survey.Input{
+		Message: "What is key name for password :",
+	}
+
+	err := survey.AskOne(prompt, &name, func(val interface{}) error {
+		if len(val.(string)) < 3 {
+			return errors.New("key name has to be at least 3 characters")
+		}
+
+		if wallet.IsKeyExists(val.(string)) {
+			return errors.New("key is already exists in wallet")
+		}
+
+		return nil
+	})
 	if err != nil {
 		os.Exit(1)
 	}
@@ -29,13 +53,11 @@ func AskForKeyName() string {
 // AskForPassword is asks for master password
 func AskForPassword() string {
 	password := ""
-
 	prompt := &survey.Password{
 		Message: "What is your master password :",
 	}
 
 	err := survey.AskOne(prompt, &password, survey.MinLength(8))
-
 	if err != nil {
 		os.Exit(1)
 	}
@@ -46,7 +68,6 @@ func AskForPassword() string {
 // AskForPasswordLength is asks user for the length of the password that you are going to generate
 func AskForPasswordLength() int {
 	length := 0
-
 	prompt := &survey.Input{
 		Message: "What is the length of password :",
 	}
@@ -62,7 +83,6 @@ func AskForPasswordLength() int {
 		}
 		return nil
 	})
-
 	if err != nil {
 		os.Exit(1)
 	}
@@ -77,6 +97,7 @@ func AskForCharPool() string {
 		Message: "Select Character Pool Items :",
 		Options: []string{"Upper", "Lower", "Number", "Symbols"},
 	}
+
 	err := survey.AskOne(prompt, &charPools, survey.Required)
 	if err != nil {
 		os.Exit(1)
