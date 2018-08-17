@@ -3,7 +3,7 @@ package generators
 import (
 	"errors"
 	"os"
-	"passgen/wallet"
+	"passgen/config"
 	"strconv"
 	"strings"
 
@@ -37,7 +37,7 @@ func AskKeyNameForWallet() string {
 			return errors.New("key name has to be at least 3 characters")
 		}
 
-		if wallet.IsKeyExists(val.(string)) {
+		if _, ok := config.GlobalConfig.Wallet[val.(string)]; ok {
 			return errors.New("key is already exists in wallet")
 		}
 

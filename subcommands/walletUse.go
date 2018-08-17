@@ -16,8 +16,8 @@ func WalletUse(cmd *cobra.Command, args []string) {
 	walletItemKey := ""
 	var allKeys []string
 
-	for _, v := range config.GlobalConfig.Wallet {
-		allKeys = append(allKeys, v.Key)
+	for keys := range config.GlobalConfig.Wallet {
+		allKeys = append(allKeys, keys)
 	}
 
 	prompt := &survey.Select{
@@ -34,12 +34,12 @@ func WalletUse(cmd *cobra.Command, args []string) {
 		log.Fatalln(err)
 	}
 
-	for _, v := range config.GlobalConfig.Wallet {
-		if v.Key == walletItemKey {
-			masterPassword := generators.AskForPassword()
-			generatedPassword := generators.GeneratePassword(v.Pool, v.Key, masterPassword, v.Length)
-			fmt.Printf("\nYour password is : %v\n", generatedPassword)
-			return
-		}
-	}
+	masterPassword := generators.AskForPassword()
+	generatedPassword := generators.GeneratePassword(
+		config.GlobalConfig.Wallet[walletItemKey].Pool,
+		walletItemKey,
+		masterPassword,
+		config.GlobalConfig.Wallet[walletItemKey].Length,
+	)
+	fmt.Printf("\nYour password is : %v\n", generatedPassword)
 }

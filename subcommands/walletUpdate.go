@@ -16,8 +16,8 @@ func WalletUpdate(cmd *cobra.Command, args []string) {
 	walletItemKey := ""
 	var allKeys []string
 
-	for _, v := range config.GlobalConfig.Wallet {
-		allKeys = append(allKeys, v.Key)
+	for keys := range config.GlobalConfig.Wallet {
+		allKeys = append(allKeys, keys)
 	}
 
 	prompt := &survey.Select{
@@ -36,17 +36,8 @@ func WalletUpdate(cmd *cobra.Command, args []string) {
 
 	fmt.Printf("\nYou are editing : \"%v\"\n\n", walletItemKey)
 
-	key := generators.AskKeyNameForWallet()
-	pool := generators.AskForCharPool()
-	length := generators.AskForPasswordLength()
+	config.GlobalConfig.Wallet[walletItemKey].Pool = generators.AskForCharPool()
+	config.GlobalConfig.Wallet[walletItemKey].Length = generators.AskForPasswordLength()
 
-	for i, v := range config.GlobalConfig.Wallet {
-		if v.Key == walletItemKey {
-			config.GlobalConfig.Wallet[i].Key = key
-			config.GlobalConfig.Wallet[i].Pool = pool
-			config.GlobalConfig.Wallet[i].Length = length
-			config.Save()
-			return
-		}
-	}
+	config.Save()
 }

@@ -37,7 +37,7 @@ func tableLister() {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Key Name", "Character Pool", "Length"})
 
-	for _, v := range config.GlobalConfig.Wallet {
+	for key, v := range config.GlobalConfig.Wallet {
 		seperatedPool := strings.Split(v.Pool, "")
 
 		for i := range seperatedPool {
@@ -53,7 +53,7 @@ func tableLister() {
 			}
 		}
 
-		table.Append([]string{v.Key, strings.Join(seperatedPool, ", "), fmt.Sprint(v.Length)})
+		table.Append([]string{key, strings.Join(seperatedPool, ", "), fmt.Sprint(v.Length)})
 	}
 	table.Render()
 }
@@ -70,8 +70,8 @@ func jsonLister() {
 // csvLister lists all wallet items formatted as csv
 func csvLister() {
 	lister := csv.NewWriter(os.Stdout)
-	for _, v := range config.GlobalConfig.Wallet {
-		lister.Write([]string{v.Key, v.Pool, fmt.Sprint(v.Length)})
+	for key, v := range config.GlobalConfig.Wallet {
+		lister.Write([]string{key, v.Pool, fmt.Sprint(v.Length)})
 	}
 	lister.Flush()
 	if err := lister.Error(); err != nil {

@@ -13,20 +13,9 @@ func WalletRemove(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	var temp []config.WalletItem
-	for _, v := range config.GlobalConfig.Wallet {
-		isRequestFind := false
-		for _, k := range args {
-			if k == v.Key {
-				isRequestFind = true
-			}
-		}
-
-		if !isRequestFind {
-			temp = append(temp, v)
-		}
+	for _, keyVal := range args {
+		delete(config.GlobalConfig.Wallet, keyVal)
 	}
 
-	config.GlobalConfig.Wallet = temp
 	config.Save()
 }
