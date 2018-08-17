@@ -37,7 +37,7 @@ func init() {
 		Aliases: []string{"gen"},
 		Short:   "Password generator for your daily usage",
 		Long:    "Password generator for your daily usage in all your apps and web sites",
-		Run:     subcommands.GeneralPasswordGeneratorCommand,
+		Run:     subcommands.Generate,
 	}
 
 	walletCommand := &cobra.Command{

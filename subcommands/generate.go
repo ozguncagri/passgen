@@ -7,8 +7,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// GeneralPasswordGeneratorCommand is default command
-func GeneralPasswordGeneratorCommand(cmd *cobra.Command, args []string) {
+// Generate is root command for default password generation
+func Generate(cmd *cobra.Command, args []string) {
 	appName := generators.AskForKeyName()
 	pool := generators.AskForCharPool()
 	pwdLength := generators.AskForPasswordLength()
