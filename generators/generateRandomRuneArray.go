@@ -2,6 +2,7 @@ package generators
 
 import "math/rand"
 
+// generateRandomRuneArray function generates array of runes with selected length, selected scope and random seed
 func generateRandomRuneArray(length int, scope string, seed int64) (randomRunes []rune) {
 	pickingPool := generateKeyboardWritableRunePool(scope)
 
