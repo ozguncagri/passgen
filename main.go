@@ -12,7 +12,7 @@ var rootCmd = &cobra.Command{
 	Use:   "passgen",
 	Short: "Password generator for your daily usage",
 	Long:  "Password generator for your daily usage in all your apps and websites",
-	Run:   subcommands.GeneralPasswordGeneratorCommand,
+	Run:   subcommands.Generate,
 }
 
 func init() {
