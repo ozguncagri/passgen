@@ -1,7 +1,6 @@
 package config
 
 import (
-	"errors"
 	"log"
 )
 
@@ -22,18 +21,6 @@ var GlobalConfig *PassgenConfig
 
 // Version is application's version number
 var Version = "1.0"
-
-// AddWalletItem adds new wallet item to global config
-func (pC *PassgenConfig) AddWalletItem(key, pool string, length int) error {
-	if _, ok := pC.Wallet[key]; !ok {
-		pC.Wallet[key] = &WalletItem{
-			Pool:   pool,
-			Length: length,
-		}
-		return nil
-	}
-	return errors.New("key is already exists")
-}
 
 func init() {
 	//initialize global config

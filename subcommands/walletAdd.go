@@ -15,7 +15,11 @@ func WalletAdd(cmd *cobra.Command, args []string) {
 	pool := generators.AskForCharPool()
 	length := generators.AskForPasswordLength()
 
-	config.GlobalConfig.AddWalletItem(key, pool, length)
+	config.GlobalConfig.Wallet[key] = &config.WalletItem{
+		Pool:   pool,
+		Length: length,
+	}
+
 	err := config.Save()
 	if err != nil {
 		log.Fatalln(err)
