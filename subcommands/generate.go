@@ -9,12 +9,12 @@ import (
 
 // Generate is root command for default password generation
 func Generate(cmd *cobra.Command, args []string) {
-	appName := generators.AskForKeyName()
+	key := generators.AskForKeyName()
 	pool := generators.AskForCharPool()
-	pwdLength := generators.AskForPasswordLength()
-	password := generators.AskForPassword()
+	length := generators.AskForPasswordLength()
+	masterPassword := generators.AskForPassword()
 
-	generatedPassword := generators.GeneratePassword(pool, appName, password, pwdLength)
+	generatedPassword := generators.GeneratePassword(pool, key, masterPassword, length)
 
 	fmt.Printf("\nYour password is : %v\n", generatedPassword)
 }
