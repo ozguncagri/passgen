@@ -1,6 +1,7 @@
 package subcommands
 
 import (
+	"fmt"
 	"passgen/config"
 
 	"github.com/spf13/cobra"
@@ -13,8 +14,14 @@ func WalletRemove(cmd *cobra.Command, args []string) {
 		return
 	}
 
+	previousLength := len(config.GlobalConfig.Wallet)
+
 	for _, keyVal := range args {
 		delete(config.GlobalConfig.Wallet, keyVal)
+	}
+
+	if previousLength > len(config.GlobalConfig.Wallet) {
+		fmt.Printf("%v key(s) are removed\n", previousLength-len(config.GlobalConfig.Wallet))
 	}
 
 	config.Save()
