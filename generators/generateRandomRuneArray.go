@@ -4,7 +4,7 @@ import "math/rand"
 
 // generateRandomRuneArray function generates array of runes with selected length, selected scope and random seed
 func generateRandomRuneArray(length int, scope string, seed int64) (randomRunes []rune) {
-	pickingPool := generateKeyboardWritableRunePool(scope)
+	pickingPool := GenerateKeyboardWritableRunePool(scope)
 
 	for i := 0; i < length; i++ {
 		rand.Seed(seed + int64(i))

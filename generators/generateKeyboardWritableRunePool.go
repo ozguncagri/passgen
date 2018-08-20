@@ -2,8 +2,8 @@ package generators
 
 import "strings"
 
-// generateKeyboardWritableRunePool is generates pool of runes depending on scope
-func generateKeyboardWritableRunePool(scope string) (randomPool []rune) {
+// GenerateKeyboardWritableRunePool is generates pool of runes depending on scope
+func GenerateKeyboardWritableRunePool(scope string) (randomPool []rune) {
 	lowers := []rune("abcdefghijklmnopqrstuvwxyz")
 	uppers := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	numbers := []rune("0123456789")
