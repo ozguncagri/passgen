@@ -47,6 +47,12 @@ func init() {
 		Run:   subcommands.WalletList,
 	}
 
+	safetyCommand := &cobra.Command{
+		Use:   "safety",
+		Short: "Safety tools for current passwords",
+		Long:  "Sets of commands for checking current passwords safety",
+	}
+
 	walletCommand.AddCommand(
 		&cobra.Command{
 			Use:     "use",
@@ -83,7 +89,22 @@ func init() {
 		},
 	)
 
-	rootCmd.AddCommand(generateCommand, walletCommand, suggestionsCommand, versionCommand)
+	safetyCommand.AddCommand(
+		&cobra.Command{
+			Use:   "check",
+			Short: "Safety check for passwords",
+			Long:  "Couple of security checks for your password's safety",
+			Run:   subcommands.SafetyCheck,
+		},
+		&cobra.Command{
+			Use:   "score",
+			Short: "Score password's safety",
+			Long:  "Gives score out of 100 for your password's safety",
+			Run:   subcommands.SafetyScore,
+		},
+	)
+
+	rootCmd.AddCommand(generateCommand, walletCommand, safetyCommand, suggestionsCommand, versionCommand)
 }
 
 func main() {
