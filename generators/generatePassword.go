@@ -7,10 +7,10 @@ func GeneratePassword(pool, key, masterPassword string, length int) string {
 	var seedNumber int64
 
 	// combine all required information for password generation seed
-	combination := helpers.SHA3StringGenerator(key)
-	combination += helpers.SHA3StringGenerator(masterPassword)
-	combination += helpers.SHA3StringGenerator(string(length))
-	combination += helpers.SHA3StringGenerator(pool)
+	combination := helpers.SHA3Calculator(key)
+	combination += helpers.SHA3Calculator(masterPassword)
+	combination += helpers.SHA3Calculator(string(length))
+	combination += helpers.SHA3Calculator(pool)
 
 	// sum all integers correspoding to rune
 	for _, v := range combination {
