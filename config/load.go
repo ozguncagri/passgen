@@ -6,7 +6,7 @@ import (
 	"os/user"
 )
 
-// loader loads configuration file and converts it into configuration structure
+// load loads configuration file and converts it into configuration structure
 func load(config *PassgenConfig) error {
 	// Get current user's information
 	user, err := user.Current()
