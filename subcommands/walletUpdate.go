@@ -36,8 +36,10 @@ func WalletUpdate(cmd *cobra.Command, args []string) {
 
 	fmt.Printf("\nYou are editing : \"%v\"\n\n", walletItemKey)
 
-	config.GlobalConfig.Wallet[walletItemKey].Pool = generators.AskForCharPool()
-	config.GlobalConfig.Wallet[walletItemKey].Length = generators.AskForPasswordLength()
+	config.GlobalConfig.Wallet[walletItemKey] = config.WalletItem{
+		Pool:   generators.AskForCharPool(),
+		Length: generators.AskForPasswordLength(),
+	}
 
 	err = config.Save()
 	if err != nil {

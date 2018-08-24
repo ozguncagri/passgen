@@ -7,7 +7,7 @@ import (
 )
 
 // load loads configuration file and converts it into configuration structure
-func load(config *PassgenConfig) error {
+func load(config PassgenConfig) error {
 	// Get current user's information
 	user, err := user.Current()
 	if err != nil {

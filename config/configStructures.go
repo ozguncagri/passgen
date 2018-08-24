@@ -6,8 +6,8 @@ import (
 
 // PassgenConfig is general configuration structure
 type PassgenConfig struct {
-	Version string                 `json:"version"`
-	Wallet  map[string]*WalletItem `json:"wallet"`
+	Version string                `json:"version"`
+	Wallet  map[string]WalletItem `json:"wallet"`
 }
 
 // WalletItem is configuration item for generating password
@@ -17,15 +17,14 @@ type WalletItem struct {
 }
 
 // GlobalConfig is application wide configuration structure variable
-var GlobalConfig *PassgenConfig
+var GlobalConfig PassgenConfig
 
 // Version is application's version number
 var Version = "1.0"
 
 func init() {
-	//initialize global config
-	GlobalConfig = new(PassgenConfig)
-	GlobalConfig.Wallet = make(map[string]*WalletItem)
+	//initialize global config's wallet map
+	GlobalConfig.Wallet = make(map[string]WalletItem)
 
 	err := load(GlobalConfig)
 	if err != nil {
