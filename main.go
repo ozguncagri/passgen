@@ -96,12 +96,6 @@ func init() {
 			Long:  "Couple of security checks for your password's safety",
 			Run:   subcommands.SafetyCheck,
 		},
-		&cobra.Command{
-			Use:   "score",
-			Short: "Score password's safety",
-			Long:  "Gives score out of 100 for your password's safety",
-			Run:   subcommands.SafetyScore,
-		},
 	)
 
 	rootCmd.AddCommand(generateCommand, walletCommand, safetyCommand, suggestionsCommand, versionCommand)
