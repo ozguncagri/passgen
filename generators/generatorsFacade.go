@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"passgen/config"
+	"passgen/helpers"
 	"strconv"
 	"strings"
 
@@ -17,7 +18,12 @@ func AskForKeyName() string {
 		Message: "What is key name for password :",
 	}
 
-	err := survey.AskOne(prompt, &name, survey.MinLength(3))
+	err := survey.AskOne(prompt, &name, func(val interface{}) error {
+		if helpers.ProperCharacterCounter(val.(string)) < 3 {
+			return errors.New("value is too short. Min length is 3")
+		}
+		return nil
+	})
 	if err != nil {
 		os.Exit(1)
 	}
@@ -33,8 +39,8 @@ func AskKeyNameForWallet() string {
 	}
 
 	err := survey.AskOne(prompt, &name, func(val interface{}) error {
-		if len(val.(string)) < 3 {
-			return errors.New("key name has to be at least 3 characters")
+		if helpers.ProperCharacterCounter(val.(string)) < 3 {
+			return errors.New("value is too short. Min length is 3")
 		}
 
 		if _, ok := config.GlobalConfig.Wallet[val.(string)]; ok {
@@ -57,7 +63,29 @@ func AskForPassword() string {
 		Message: "What is your master password :",
 	}
 
-	err := survey.AskOne(prompt, &password, survey.MinLength(8))
+	err := survey.AskOne(prompt, &password, func(val interface{}) error {
+		if helpers.ProperCharacterCounter(val.(string)) < 8 {
+			return errors.New("value is too short. Min length is 8")
+		}
+
+		if !strings.ContainsAny(val.(string), string(GenerateKeyboardWritableRunePool("U"))) {
+			return errors.New("unsecure password. Your password must contain at least one upper-case character")
+		}
+
+		if !strings.ContainsAny(val.(string), string(GenerateKeyboardWritableRunePool("L"))) {
+			return errors.New("unsecure password. Your password must contain at least one lower-case character")
+		}
+
+		if !strings.ContainsAny(val.(string), string(GenerateKeyboardWritableRunePool("N"))) {
+			return errors.New("unsecure password. Your password must contain at least one digit")
+		}
+
+		if !strings.ContainsAny(val.(string), string(GenerateKeyboardWritableRunePool("S"))) {
+			return errors.New("unsecure password. Your password must contain at least one symbol")
+		}
+
+		return nil
+	})
 	if err != nil {
 		os.Exit(1)
 	}

@@ -6,6 +6,7 @@ import (
 	"log"
 	"passgen/config"
 	"passgen/generators"
+	"passgen/helpers"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/AlecAivazis/survey.v1"
@@ -25,7 +26,7 @@ func WalletUse(cmd *cobra.Command, args []string) {
 		Options: allKeys,
 	}
 	err := survey.AskOne(prompt, &walletItemKey, func(val interface{}) error {
-		if val.(string) == "" {
+		if helpers.ProperCharacterCounter(val.(string)) == 0 {
 			return errors.New("this is not valid selection")
 		}
 		return nil
