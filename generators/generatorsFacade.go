@@ -16,6 +16,7 @@ func AskForKeyName() string {
 	name := ""
 	prompt := &survey.Input{
 		Message: "What is key name for password :",
+		Help:    "Key name should be at least 3 characters long",
 	}
 
 	err := survey.AskOne(prompt, &name, func(val interface{}) error {
@@ -36,6 +37,7 @@ func AskKeyNameForWallet() string {
 	name := ""
 	prompt := &survey.Input{
 		Message: "What is key name for password :",
+		Help:    "Key name should be at least 3 characters long",
 	}
 
 	err := survey.AskOne(prompt, &name, func(val interface{}) error {
@@ -61,6 +63,7 @@ func AskForPassword() string {
 	password := ""
 	prompt := &survey.Password{
 		Message: "What is your master password :",
+		Help:    "Password should be at least 8 characters long and must be contain upper, lower case letters, digits and symbols",
 	}
 
 	err := survey.AskOne(prompt, &password, func(val interface{}) error {
@@ -98,6 +101,7 @@ func AskForPasswordLength() int {
 	length := 0
 	prompt := &survey.Input{
 		Message: "What is the length of password :",
+		Help:    "Password length should be between 4 and 256 characters",
 	}
 
 	err := survey.AskOne(prompt, &length, func(val interface{}) error {
@@ -108,6 +112,10 @@ func AskForPasswordLength() int {
 
 		if convertedInt < 4 {
 			return errors.New("password should be at least 4 characters for supporting pins. (Suggested min. length 16)")
+		}
+
+		if convertedInt > 256 {
+			return errors.New("it is already unbreakable with our current technology. (Max : 256)")
 		}
 		return nil
 	})
