@@ -9,8 +9,8 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-// TableLister lists all wallet items as human readable table
-func TableLister() {
+// List subcommand for wallet lister
+func List() {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Key Name", "Character Pool", "Length"})
 

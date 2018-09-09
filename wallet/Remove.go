@@ -1,18 +1,17 @@
-package subcommands
+package wallet
 
 import (
 	"errors"
 	"fmt"
 	"log"
 	"passgen/config"
-	"passgen/generators"
+	"passgen/helpers"
 
-	"github.com/spf13/cobra"
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 
-// WalletUpdate selects and updates wallet item
-func WalletUpdate(cmd *cobra.Command, args []string) {
+// Remove is remotes one ore more items from wallet
+func Remove() {
 	walletItemKey := ""
 	var allKeys []string
 
@@ -21,11 +20,11 @@ func WalletUpdate(cmd *cobra.Command, args []string) {
 	}
 
 	prompt := &survey.Select{
-		Message: "Choose wallet item for update :",
+		Message: "Choose wallet item for remove :",
 		Options: allKeys,
 	}
 	err := survey.AskOne(prompt, &walletItemKey, func(val interface{}) error {
-		if val.(string) == "" {
+		if helpers.ProperCharacterCounter(val.(string)) == 0 {
 			return errors.New("this is not valid selection")
 		}
 		return nil
@@ -34,11 +33,12 @@ func WalletUpdate(cmd *cobra.Command, args []string) {
 		log.Fatalln(err)
 	}
 
-	fmt.Printf("\nYou are editing : \"%v\"\n\n", walletItemKey)
+	previousLength := len(config.GlobalConfig.Wallet)
 
-	config.GlobalConfig.Wallet[walletItemKey] = config.WalletItem{
-		Pool:   generators.AskForCharPool(),
-		Length: generators.AskForPasswordLength(),
+	delete(config.GlobalConfig.Wallet, walletItemKey)
+
+	if previousLength > len(config.GlobalConfig.Wallet) {
+		fmt.Printf("Key (%v) removed\n", walletItemKey)
 	}
 
 	err = config.Save()

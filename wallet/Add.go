@@ -1,16 +1,14 @@
-package subcommands
+package wallet
 
 import (
 	"fmt"
 	"log"
 	"passgen/config"
 	"passgen/generators"
-
-	"github.com/spf13/cobra"
 )
 
-// WalletAdd adds password generation item to the wallet
-func WalletAdd(cmd *cobra.Command, args []string) {
+// Add adds password generation item to the wallet
+func Add() {
 	key := generators.AskKeyNameForWallet()
 	pool := generators.AskForCharPool()
 	length := generators.AskForPasswordLength()

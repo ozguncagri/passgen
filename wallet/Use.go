@@ -1,4 +1,4 @@
-package subcommands
+package wallet
 
 import (
 	"errors"
@@ -8,12 +8,11 @@ import (
 	"passgen/generators"
 	"passgen/helpers"
 
-	"github.com/spf13/cobra"
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 
-// WalletUse is used for generating password using settings defined in wallet item
-func WalletUse(cmd *cobra.Command, args []string) {
+// Use is used for generating password using settings defined in wallet item
+func Use() {
 	walletItemKey := ""
 	var allKeys []string
 
