@@ -1,8 +1,9 @@
 package safety
 
 import (
-	"passgen/generators"
 	"strings"
+
+	"github.com/ozguncagri/passgen/generators"
 )
 
 // characterTypeCounter counts keyboard writable upper-case, lower-case, digit, symbol and non-standard characters

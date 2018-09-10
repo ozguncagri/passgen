@@ -2,7 +2,8 @@ package safety
 
 import (
 	"fmt"
-	"passgen/helpers"
+
+	"github.com/ozguncagri/passgen/helpers"
 )
 
 // Check is tests password for bunch of requirements

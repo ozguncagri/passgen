@@ -3,8 +3,9 @@ package wallet
 import (
 	"fmt"
 	"log"
-	"passgen/config"
-	"passgen/generators"
+
+	"github.com/ozguncagri/passgen/config"
+	"github.com/ozguncagri/passgen/generators"
 )
 
 // Add adds password generation item to the wallet

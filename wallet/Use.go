@@ -4,9 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"passgen/config"
-	"passgen/generators"
-	"passgen/helpers"
+
+	"github.com/ozguncagri/passgen/config"
+	"github.com/ozguncagri/passgen/generators"
+	"github.com/ozguncagri/passgen/helpers"
 
 	"gopkg.in/AlecAivazis/survey.v1"
 )

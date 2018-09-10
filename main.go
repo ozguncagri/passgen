@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
-	"passgen/subcommands"
+
+	"github.com/ozguncagri/passgen/subcommands"
 
 	"github.com/spf13/cobra"
 )

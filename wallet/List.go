@@ -3,8 +3,9 @@ package wallet
 import (
 	"fmt"
 	"os"
-	"passgen/config"
 	"strings"
+
+	"github.com/ozguncagri/passgen/config"
 
 	"github.com/olekukonko/tablewriter"
 )

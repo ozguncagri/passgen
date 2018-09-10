@@ -3,8 +3,9 @@ package subcommands
 import (
 	"errors"
 	"log"
-	"passgen/helpers"
-	"passgen/wallet"
+
+	"github.com/ozguncagri/passgen/helpers"
+	"github.com/ozguncagri/passgen/wallet"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/AlecAivazis/survey.v1"

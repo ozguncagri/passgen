@@ -3,10 +3,11 @@ package generators
 import (
 	"errors"
 	"os"
-	"passgen/config"
-	"passgen/helpers"
 	"strconv"
 	"strings"
+
+	"github.com/ozguncagri/passgen/config"
+	"github.com/ozguncagri/passgen/helpers"
 
 	"gopkg.in/AlecAivazis/survey.v1"
 )
