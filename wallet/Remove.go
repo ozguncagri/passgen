@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ozguncagri/passgen/config"
 	"github.com/ozguncagri/passgen/helpers"
 
 	"gopkg.in/AlecAivazis/survey.v1"
@@ -16,7 +15,7 @@ func Remove() {
 	walletItemKey := ""
 	var allKeys []string
 
-	for keys := range config.GlobalConfig.Wallet {
+	for keys := range GlobalWallet.Wallet {
 		allKeys = append(allKeys, keys)
 	}
 
@@ -34,15 +33,15 @@ func Remove() {
 		log.Fatalln(err)
 	}
 
-	previousLength := len(config.GlobalConfig.Wallet)
+	previousLength := len(GlobalWallet.Wallet)
 
-	delete(config.GlobalConfig.Wallet, walletItemKey)
+	delete(GlobalWallet.Wallet, walletItemKey)
 
-	if previousLength > len(config.GlobalConfig.Wallet) {
+	if previousLength > len(GlobalWallet.Wallet) {
 		fmt.Printf("Key (%v) removed\n", walletItemKey)
 	}
 
-	err = config.Save()
+	err = Save()
 	if err != nil {
 		log.Fatalln(err)
 	}

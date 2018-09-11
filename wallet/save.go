@@ -1,4 +1,4 @@
-package config
+package wallet
 
 import (
 	"encoding/json"
@@ -15,7 +15,7 @@ func Save() error {
 	}
 
 	// Marshall current config
-	configuration, err := json.Marshal(GlobalConfig)
+	configuration, err := json.Marshal(GlobalWallet)
 	if err != nil {
 		return err
 	}

@@ -13,6 +13,7 @@ import (
 
 // Wallet adds password generation item to the wallet
 func Wallet(cmd *cobra.Command, args []string) {
+	wallet.Load()
 	walletItemKey := ""
 	allKeys := []string{"Generate", "Add", "List", "Update", "Remove"}
 

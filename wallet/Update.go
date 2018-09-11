@@ -5,8 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ozguncagri/passgen/config"
-	"github.com/ozguncagri/passgen/generators"
+	"github.com/ozguncagri/passgen/interactors"
 
 	"gopkg.in/AlecAivazis/survey.v1"
 )
@@ -16,7 +15,7 @@ func Update() {
 	walletItemKey := ""
 	var allKeys []string
 
-	for keys := range config.GlobalConfig.Wallet {
+	for keys := range GlobalWallet.Wallet {
 		allKeys = append(allKeys, keys)
 	}
 
@@ -36,12 +35,12 @@ func Update() {
 
 	fmt.Printf("\nYou are editing : \"%v\"\n\n", walletItemKey)
 
-	config.GlobalConfig.Wallet[walletItemKey] = config.WalletItem{
-		Pool:   generators.AskForCharPool(),
-		Length: generators.AskForPasswordLength(),
+	GlobalWallet.Wallet[walletItemKey] = Item{
+		Pool:   interactors.AskForCharPool(),
+		Length: interactors.AskForPasswordLength(),
 	}
 
-	err = config.Save()
+	err = Save()
 	if err != nil {
 		log.Fatalln(err)
 	}

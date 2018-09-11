@@ -5,8 +5,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ozguncagri/passgen/config"
-
 	"github.com/olekukonko/tablewriter"
 )
 
@@ -15,7 +13,7 @@ func List() {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Key Name", "Character Pool", "Length"})
 
-	for key, v := range config.GlobalConfig.Wallet {
+	for key, v := range GlobalWallet.Wallet {
 		seperatedPool := strings.Split(v.Pool, "")
 
 		for i := range seperatedPool {

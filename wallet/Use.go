@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ozguncagri/passgen/config"
 	"github.com/ozguncagri/passgen/generators"
+
+	"github.com/ozguncagri/passgen/interactors"
+
 	"github.com/ozguncagri/passgen/helpers"
 
 	"gopkg.in/AlecAivazis/survey.v1"
@@ -17,7 +19,7 @@ func Use() {
 	walletItemKey := ""
 	var allKeys []string
 
-	for keys := range config.GlobalConfig.Wallet {
+	for keys := range GlobalWallet.Wallet {
 		allKeys = append(allKeys, keys)
 	}
 
@@ -35,12 +37,12 @@ func Use() {
 		log.Fatalln(err)
 	}
 
-	masterPassword := generators.AskForPassword()
+	masterPassword := interactors.AskForPassword()
 	generatedPassword := generators.GeneratePassword(
-		config.GlobalConfig.Wallet[walletItemKey].Pool,
+		GlobalWallet.Wallet[walletItemKey].Pool,
 		walletItemKey,
 		masterPassword,
-		config.GlobalConfig.Wallet[walletItemKey].Length,
+		GlobalWallet.Wallet[walletItemKey].Length,
 	)
 	fmt.Printf("\nYour password is : %v\n", generatedPassword)
 }

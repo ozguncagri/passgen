@@ -1,4 +1,4 @@
-package config
+package wallet
 
 import (
 	"encoding/json"
@@ -6,8 +6,8 @@ import (
 	"os/user"
 )
 
-// load loads configuration file and converts it into configuration structure
-func load(config PassgenConfig) error {
+// Load loads configuration file and converts it into configuration structure
+func Load() error {
 	// Get current user's information
 	user, err := user.Current()
 	if err != nil {
@@ -16,7 +16,8 @@ func load(config PassgenConfig) error {
 
 	// Read and unmarshal configuration file
 	if file, err := ioutil.ReadFile(user.HomeDir + "/.passgen"); err == nil {
-		err = json.Unmarshal(file, &config)
+
+		err = json.Unmarshal(file, &GlobalWallet)
 		if err != nil {
 			return err
 		}
