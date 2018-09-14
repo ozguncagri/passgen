@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/ozguncagri/passgen/helpers"
 	"github.com/ozguncagri/passgen/interactors"
 
 	"gopkg.in/AlecAivazis/survey.v1"
@@ -24,7 +25,7 @@ func Update() {
 		Options: allKeys,
 	}
 	err := survey.AskOne(prompt, &walletItemKey, func(val interface{}) error {
-		if val.(string) == "" {
+		if helpers.ProperCharacterCounter(val.(string)) == 0 {
 			return errors.New("this is not valid selection")
 		}
 		return nil
