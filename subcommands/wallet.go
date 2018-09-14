@@ -19,6 +19,7 @@ func Wallet(cmd *cobra.Command, args []string) {
 
 	prompt := &survey.Select{
 		Message: "What do you want to do on your wallet :",
+		Help:    "Select what to do on your wallet",
 		Options: allKeys,
 	}
 	err := survey.AskOne(prompt, &walletItemKey, func(val interface{}) error {

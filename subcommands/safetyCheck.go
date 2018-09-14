@@ -17,6 +17,7 @@ func SafetyCheck(cmd *cobra.Command, args []string) {
 	password := ""
 	prompt := &survey.Password{
 		Message: "What is your password :",
+		Help:    "Write any of your current password for security check",
 	}
 
 	err := survey.AskOne(prompt, &password, func(val interface{}) error {

@@ -22,6 +22,7 @@ func Update() {
 
 	prompt := &survey.Select{
 		Message: "Choose wallet item for update :",
+		Help:    "Pick any wallet item for change it's character pool and length settings",
 		Options: allKeys,
 	}
 	err := survey.AskOne(prompt, &walletItemKey, func(val interface{}) error {

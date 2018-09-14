@@ -25,6 +25,7 @@ func Use() {
 
 	prompt := &survey.Select{
 		Message: "Choose wallet item for generate password :",
+		Help:    "Pick any wallet item for generate password with pre defined settings",
 		Options: allKeys,
 	}
 	err := survey.AskOne(prompt, &walletItemKey, func(val interface{}) error {

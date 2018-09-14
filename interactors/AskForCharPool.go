@@ -12,6 +12,7 @@ func AskForCharPool() string {
 	charPools := []string{}
 	prompt := &survey.MultiSelect{
 		Message: "Select Character Pool Items :",
+		Help:    "Selection of which character groups will be use for password generation",
 		Options: []string{"Upper", "Lower", "Number", "Symbols"},
 	}
 

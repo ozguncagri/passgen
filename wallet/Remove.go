@@ -21,6 +21,7 @@ func Remove() {
 
 	prompt := &survey.Select{
 		Message: "Choose wallet item for remove :",
+		Help:    "Pick any added item for removing it from your wallet",
 		Options: allKeys,
 	}
 	err := survey.AskOne(prompt, &walletItemKey, func(val interface{}) error {
