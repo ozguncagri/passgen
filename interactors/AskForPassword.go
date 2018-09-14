@@ -24,19 +24,19 @@ func AskForPassword() string {
 		}
 
 		if !strings.ContainsAny(val.(string), string(generators.GenerateKeyboardWritableRunePool("U"))) {
-			return errors.New("unsecure password. Your password must contain at least one upper-case character")
+			return errors.New("insecure password. Your password must contain at least one upper-case character")
 		}
 
 		if !strings.ContainsAny(val.(string), string(generators.GenerateKeyboardWritableRunePool("L"))) {
-			return errors.New("unsecure password. Your password must contain at least one lower-case character")
+			return errors.New("insecure password. Your password must contain at least one lower-case character")
 		}
 
 		if !strings.ContainsAny(val.(string), string(generators.GenerateKeyboardWritableRunePool("N"))) {
-			return errors.New("unsecure password. Your password must contain at least one digit")
+			return errors.New("insecure password. Your password must contain at least one digit")
 		}
 
 		if !strings.ContainsAny(val.(string), string(generators.GenerateKeyboardWritableRunePool("S"))) {
-			return errors.New("unsecure password. Your password must contain at least one symbol")
+			return errors.New("insecure password. Your password must contain at least one symbol")
 		}
 
 		return nil
