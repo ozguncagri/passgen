@@ -6,10 +6,16 @@ import (
 	"strings"
 
 	"github.com/olekukonko/tablewriter"
+	"github.com/ozguncagri/passgen/helpers"
 )
 
 // List subcommand for wallet lister
 func List(memoryWallet *PassgenWallet) {
+	if len(memoryWallet.Wallet) == 0 {
+		helpers.NegativePrintf("\nThere is no item in your wallet\n\n")
+		return
+	}
+
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Key Name", "Character Pool", "Length"})
 

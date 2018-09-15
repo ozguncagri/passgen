@@ -19,3 +19,6 @@ var PositivePrintln = color.New(color.FgGreen, color.Bold).PrintlnFunc()
 
 // NegativePrintln prints bold and red colored text with line ending
 var NegativePrintln = color.New(color.FgRed, color.Bold).PrintlnFunc()
+
+// ResultPrintf prints bold and yellow colored text with formatter
+var ResultPrintf = color.New(color.FgYellow, color.Bold).PrintfFunc()

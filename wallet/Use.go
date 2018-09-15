@@ -2,7 +2,6 @@ package wallet
 
 import (
 	"errors"
-	"fmt"
 	"log"
 
 	"github.com/ozguncagri/passgen/generators"
@@ -16,6 +15,11 @@ import (
 
 // Use is used for generating password using settings defined in wallet item
 func Use(memoryWallet *PassgenWallet) {
+	if len(memoryWallet.Wallet) == 0 {
+		helpers.NegativePrintf("\nThere is no item in your wallet\n\n")
+		return
+	}
+
 	walletItemKey := ""
 	var allKeys []string
 
@@ -45,5 +49,6 @@ func Use(memoryWallet *PassgenWallet) {
 		masterPassword,
 		memoryWallet.Wallet[walletItemKey].Length,
 	)
-	fmt.Printf("\nYour password is : %v\n", generatedPassword)
+
+	helpers.ResultPrintf("\nYour password is : %v\n\n", generatedPassword)
 }

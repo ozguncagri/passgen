@@ -104,7 +104,7 @@ func Wallet(cmd *cobra.Command, args []string) {
 walletLoop:
 	for {
 		walletItemKey := ""
-		allKeys := []string{"Generate", "Add", "List", "Update", "Remove", "Save & Lock"}
+		allKeys := []string{"Generate", "Add", "List", "Update", "Remove", "Save & Lock", "Lock Without Saving"}
 
 		prompt := &survey.Select{
 			Message: "What do you want to do on your wallet :",
@@ -138,6 +138,8 @@ walletLoop:
 				log.Println(err)
 				continue
 			}
+			break walletLoop
+		case "Lock Without Saving":
 			break walletLoop
 		}
 	}

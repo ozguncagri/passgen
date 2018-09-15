@@ -2,7 +2,6 @@ package wallet
 
 import (
 	"errors"
-	"fmt"
 	"os"
 
 	"github.com/ozguncagri/passgen/helpers"
@@ -42,5 +41,5 @@ func Add(memoryWallet *PassgenWallet) {
 		Length: length,
 	}
 
-	fmt.Println("\nYour choices are saved to wallet.")
+	helpers.ResultPrintf("\nYour choices are saved to wallet\n\n")
 }

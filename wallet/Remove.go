@@ -2,7 +2,6 @@ package wallet
 
 import (
 	"errors"
-	"fmt"
 	"log"
 
 	"github.com/ozguncagri/passgen/helpers"
@@ -12,6 +11,11 @@ import (
 
 // Remove is remotes one ore more items from wallet
 func Remove(memoryWallet *PassgenWallet) {
+	if len(memoryWallet.Wallet) == 0 {
+		helpers.NegativePrintf("\nThere is no item in your wallet\n\n")
+		return
+	}
+
 	walletItemKey := ""
 	var allKeys []string
 
@@ -39,6 +43,6 @@ func Remove(memoryWallet *PassgenWallet) {
 	delete(memoryWallet.Wallet, walletItemKey)
 
 	if previousLength > len(memoryWallet.Wallet) {
-		fmt.Printf("Key (%v) removed\n", walletItemKey)
+		helpers.ResultPrintf("\nKey (%v) removed\n\n", walletItemKey)
 	}
 }

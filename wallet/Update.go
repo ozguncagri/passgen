@@ -3,16 +3,22 @@ package wallet
 import (
 	"errors"
 	"fmt"
-	"log"
+	"os"
+	"strconv"
+	"strings"
 
 	"github.com/ozguncagri/passgen/helpers"
-	"github.com/ozguncagri/passgen/interactors"
 
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 
 // Update selects and updates wallet item
 func Update(memoryWallet *PassgenWallet) {
+	if len(memoryWallet.Wallet) == 0 {
+		helpers.NegativePrintf("\nThere is no item in your wallet\n\n")
+		return
+	}
+
 	walletItemKey := ""
 	var allKeys []string
 
@@ -32,13 +38,58 @@ func Update(memoryWallet *PassgenWallet) {
 		return nil
 	})
 	if err != nil {
-		log.Fatalln(err)
+		os.Exit(1)
 	}
 
-	fmt.Printf("\nYou are editing : \"%v\"\n\n", walletItemKey)
+	//Select Char Pool
+	charPools := []string{}
+	charPoolsPrompt := &survey.MultiSelect{
+		Message: fmt.Sprintf("Select new character pool items for (%v) :", walletItemKey),
+		Help:    "Selection of which character groups will be use for password generation",
+		Options: []string{"Upper", "Lower", "Number", "Symbols"},
+	}
+
+	err = survey.AskOne(charPoolsPrompt, &charPools, survey.Required)
+	if err != nil {
+		os.Exit(1)
+	}
+
+	for i, v := range charPools {
+		charPools[i] = string(v[0])
+	}
+
+	selectedCharPool := strings.ToUpper(strings.Join(charPools, ""))
+
+	//ask for length
+	length := 0
+	lengthPrompt := &survey.Input{
+		Message: fmt.Sprintf("What is the new length of password for (%v) :", walletItemKey),
+		Help:    "Password length should be between 4 and 256 characters",
+	}
+
+	err = survey.AskOne(lengthPrompt, &length, func(val interface{}) error {
+		convertedInt, err := strconv.Atoi(val.(string))
+		if err != nil {
+			return errors.New("value is not integer")
+		}
+
+		if convertedInt < 4 {
+			return errors.New("password should be at least 4 characters for supporting pins. (Suggested min. length 16)")
+		}
+
+		if convertedInt > 256 {
+			return errors.New("it is already unbreakable with our current technology. (Max : 256)")
+		}
+		return nil
+	})
+	if err != nil {
+		os.Exit(1)
+	}
 
 	memoryWallet.Wallet[walletItemKey] = Item{
-		Pool:   interactors.AskForCharPool(),
-		Length: interactors.AskForPasswordLength(),
+		Pool:   selectedCharPool,
+		Length: length,
 	}
+
+	helpers.ResultPrintf("\nCharacter pool and length values of key (%v) updated\n\n")
 }
