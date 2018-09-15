@@ -15,11 +15,11 @@ import (
 )
 
 // Use is used for generating password using settings defined in wallet item
-func Use() {
+func Use(memoryWallet *PassgenWallet) {
 	walletItemKey := ""
 	var allKeys []string
 
-	for keys := range GlobalWallet.Wallet {
+	for keys := range memoryWallet.Wallet {
 		allKeys = append(allKeys, keys)
 	}
 
@@ -40,10 +40,10 @@ func Use() {
 
 	masterPassword := interactors.AskForPassword()
 	generatedPassword := generators.GeneratePassword(
-		GlobalWallet.Wallet[walletItemKey].Pool,
+		memoryWallet.Wallet[walletItemKey].Pool,
 		walletItemKey,
 		masterPassword,
-		GlobalWallet.Wallet[walletItemKey].Length,
+		memoryWallet.Wallet[walletItemKey].Length,
 	)
 	fmt.Printf("\nYour password is : %v\n", generatedPassword)
 }

@@ -12,11 +12,11 @@ import (
 )
 
 // Update selects and updates wallet item
-func Update() {
+func Update(memoryWallet *PassgenWallet) {
 	walletItemKey := ""
 	var allKeys []string
 
-	for keys := range GlobalWallet.Wallet {
+	for keys := range memoryWallet.Wallet {
 		allKeys = append(allKeys, keys)
 	}
 
@@ -37,13 +37,8 @@ func Update() {
 
 	fmt.Printf("\nYou are editing : \"%v\"\n\n", walletItemKey)
 
-	GlobalWallet.Wallet[walletItemKey] = Item{
+	memoryWallet.Wallet[walletItemKey] = Item{
 		Pool:   interactors.AskForCharPool(),
 		Length: interactors.AskForPasswordLength(),
-	}
-
-	err = Save()
-	if err != nil {
-		log.Fatalln(err)
 	}
 }

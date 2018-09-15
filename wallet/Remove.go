@@ -11,11 +11,11 @@ import (
 )
 
 // Remove is remotes one ore more items from wallet
-func Remove() {
+func Remove(memoryWallet *PassgenWallet) {
 	walletItemKey := ""
 	var allKeys []string
 
-	for keys := range GlobalWallet.Wallet {
+	for keys := range memoryWallet.Wallet {
 		allKeys = append(allKeys, keys)
 	}
 
@@ -34,16 +34,11 @@ func Remove() {
 		log.Fatalln(err)
 	}
 
-	previousLength := len(GlobalWallet.Wallet)
+	previousLength := len(memoryWallet.Wallet)
 
-	delete(GlobalWallet.Wallet, walletItemKey)
+	delete(memoryWallet.Wallet, walletItemKey)
 
-	if previousLength > len(GlobalWallet.Wallet) {
+	if previousLength > len(memoryWallet.Wallet) {
 		fmt.Printf("Key (%v) removed\n", walletItemKey)
-	}
-
-	err = Save()
-	if err != nil {
-		log.Fatalln(err)
 	}
 }

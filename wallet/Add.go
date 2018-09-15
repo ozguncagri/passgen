@@ -3,7 +3,6 @@ package wallet
 import (
 	"errors"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/ozguncagri/passgen/helpers"
@@ -12,7 +11,7 @@ import (
 )
 
 // Add adds password generation item to the wallet
-func Add() {
+func Add(memoryWallet *PassgenWallet) {
 	// Ask For Wallet Key Name
 	keyName := ""
 	prompt := &survey.Input{
@@ -25,7 +24,7 @@ func Add() {
 			return errors.New("value is too short. Min length is 3")
 		}
 
-		if _, ok := GlobalWallet.Wallet[val.(string)]; ok {
+		if _, ok := memoryWallet.Wallet[val.(string)]; ok {
 			return errors.New("key is already exists in wallet")
 		}
 
@@ -38,14 +37,10 @@ func Add() {
 	pool := interactors.AskForCharPool()
 	length := interactors.AskForPasswordLength()
 
-	GlobalWallet.Wallet[keyName] = Item{
+	memoryWallet.Wallet[keyName] = Item{
 		Pool:   pool,
 		Length: length,
 	}
 
-	err = Save()
-	if err != nil {
-		log.Fatalln(err)
-	}
 	fmt.Println("\nYour choices are saved to wallet.")
 }

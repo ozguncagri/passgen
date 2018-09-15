@@ -9,11 +9,11 @@ import (
 )
 
 // List subcommand for wallet lister
-func List() {
+func List(memoryWallet *PassgenWallet) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Key Name", "Character Pool", "Length"})
 
-	for key, v := range GlobalWallet.Wallet {
+	for key, v := range memoryWallet.Wallet {
 		seperatedPool := strings.Split(v.Pool, "")
 
 		for i := range seperatedPool {
