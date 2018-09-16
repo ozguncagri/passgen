@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"os/user"
 
-	"github.com/ozguncagri/passgen/helpers"
+	"passgen/helpers"
 )
 
 // Save function saves marshals and saves global configuration variable to file

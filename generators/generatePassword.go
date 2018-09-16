@@ -1,6 +1,6 @@
 package generators
 
-import "github.com/ozguncagri/passgen/helpers"
+import "passgen/helpers"
 
 // GeneratePassword function used for generating password with required information
 func GeneratePassword(pool, key, masterPassword string, length int) string {

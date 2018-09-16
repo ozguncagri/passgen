@@ -9,9 +9,9 @@ import (
 	"os/user"
 	"strings"
 
-	"github.com/ozguncagri/passgen/generators"
-	"github.com/ozguncagri/passgen/helpers"
-	"github.com/ozguncagri/passgen/wallet"
+	"passgen/generators"
+	"passgen/helpers"
+	"passgen/wallet"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/AlecAivazis/survey.v1"

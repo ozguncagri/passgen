@@ -4,7 +4,8 @@ import (
 	"errors"
 	"os"
 
-	"github.com/ozguncagri/passgen/helpers"
+	"passgen/helpers"
+
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 

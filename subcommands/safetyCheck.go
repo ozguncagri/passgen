@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ozguncagri/passgen/helpers"
-	"github.com/ozguncagri/passgen/safety"
+	"passgen/helpers"
+	"passgen/safety"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/AlecAivazis/survey.v1"

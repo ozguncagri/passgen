@@ -3,7 +3,7 @@ package subcommands
 import (
 	"fmt"
 
-	"github.com/ozguncagri/passgen/suggestions"
+	"passgen/suggestions"
 
 	"github.com/spf13/cobra"
 )

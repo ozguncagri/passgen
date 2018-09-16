@@ -1,4 +1,4 @@
-module github.com/ozguncagri/passgen
+module passgen
 
 require (
 	github.com/Netflix/go-expect v0.0.0-20180814212900-124a37274874 // indirect

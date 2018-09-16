@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ozguncagri/passgen/subcommands"
+	"passgen/subcommands"
 
 	"github.com/spf13/cobra"
 )

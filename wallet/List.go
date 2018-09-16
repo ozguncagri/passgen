@@ -5,8 +5,9 @@ import (
 	"os"
 	"strings"
 
+	"passgen/helpers"
+
 	"github.com/olekukonko/tablewriter"
-	"github.com/ozguncagri/passgen/helpers"
 )
 
 // List subcommand for wallet lister

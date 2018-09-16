@@ -1,6 +1,6 @@
 package safety
 
-import "github.com/ozguncagri/passgen/helpers"
+import "passgen/helpers"
 
 // isThereAnyRepeatingRuneGroups checks password for any repeating character groups
 func isThereAnyRepeatingRuneGroups(password string) bool {

@@ -3,8 +3,8 @@ package subcommands
 import (
 	"fmt"
 
-	"github.com/ozguncagri/passgen/generators"
-	"github.com/ozguncagri/passgen/interactors"
+	"passgen/generators"
+	"passgen/interactors"
 
 	"github.com/spf13/cobra"
 )

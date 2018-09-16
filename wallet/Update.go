@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ozguncagri/passgen/helpers"
+	"passgen/helpers"
 
 	"gopkg.in/AlecAivazis/survey.v1"
 )
