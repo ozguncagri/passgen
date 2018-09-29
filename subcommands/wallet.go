@@ -17,8 +17,15 @@ import (
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 
-// Wallet adds password generation item to the wallet
-func Wallet(cmd *cobra.Command, args []string) {
+var Wallet = &cobra.Command{
+	Use:   "wallet",
+	Short: "Print wallet items",
+	Long:  "Prints list of stored wallet items on your config",
+	Run:   walletRunner,
+}
+
+// wallet adds password generation item to the wallet
+func walletRunner(cmd *cobra.Command, args []string) {
 	//initialize empty wallet
 	memoryWallet := wallet.PassgenWallet{
 		Version: "1.0",

@@ -12,8 +12,16 @@ import (
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 
-// SafetyCheck runs couple of security checks for your password's safety
-func SafetyCheck(cmd *cobra.Command, args []string) {
+// safetyCheck subcommand variable
+var safetyCheck = &cobra.Command{
+	Use:   "check",
+	Short: "Safety check for passwords",
+	Long:  "Couple of security checks for your password's safety",
+	Run:   safetyCheckRunner,
+}
+
+// safetyCheckRunner runs couple of security checks for your password's safety
+func safetyCheckRunner(cmd *cobra.Command, args []string) {
 	password := ""
 	prompt := &survey.Password{
 		Message: "What is your password :",
