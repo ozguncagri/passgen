@@ -17,6 +17,7 @@ import (
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 
+// Wallet subcommand variable
 var Wallet = &cobra.Command{
 	Use:   "wallet",
 	Short: "Print wallet items",
