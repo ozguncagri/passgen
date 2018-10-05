@@ -25,14 +25,9 @@ var Wallet = &cobra.Command{
 	Run:   walletRunner,
 }
 
-// wallet adds password generation item to the wallet
-func walletRunner(cmd *cobra.Command, args []string) {
-	//initialize empty wallet
-	memoryWallet := wallet.PassgenWallet{
-		Version: "1.0",
-		Wallet:  make(map[string]wallet.Item),
-	}
+var walletPath string
 
+func init() {
 	// Get current user's information
 	user, userErr := user.Current()
 	if userErr != nil {
@@ -41,8 +36,19 @@ func walletRunner(cmd *cobra.Command, args []string) {
 
 	walletFilePath := user.HomeDir + "/.passgen"
 
+	Wallet.Flags().StringVarP(&walletPath, "wallet-path", "w", walletFilePath, "Set different wallet file path")
+}
+
+// wallet adds password generation item to the wallet
+func walletRunner(cmd *cobra.Command, args []string) {
+	//initialize empty wallet
+	memoryWallet := wallet.PassgenWallet{
+		Version: "1.0",
+		Wallet:  make(map[string]wallet.Item),
+	}
+
 	// Read encrypted wallet as a byte array
-	encryptedWallet, fileReadErr := ioutil.ReadFile(walletFilePath)
+	encryptedWallet, fileReadErr := ioutil.ReadFile(walletPath)
 	if fileReadErr != nil {
 		//wallet is not exists wanna create one
 		walletCreationApproval := false
@@ -141,7 +147,7 @@ walletLoop:
 		case "Remove":
 			wallet.Remove(&memoryWallet)
 		case "Save & Lock":
-			err := wallet.Save(walletPassword, &memoryWallet)
+			err := wallet.Save(walletPassword, &memoryWallet, walletPath)
 			if err != nil {
 				log.Println(err)
 				continue

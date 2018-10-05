@@ -3,19 +3,12 @@ package wallet
 import (
 	"encoding/json"
 	"io/ioutil"
-	"os/user"
 
 	"passgen/helpers"
 )
 
 // Save function saves marshals and saves global configuration variable to file
-func Save(walletPassword string, memoryWallet *PassgenWallet) error {
-	// Get current user's information
-	user, err := user.Current()
-	if err != nil {
-		return err
-	}
-
+func Save(walletPassword string, memoryWallet *PassgenWallet, walletPath string) error {
 	// Marshall current wallet
 	jsonWallet, err := json.Marshal(memoryWallet)
 	if err != nil {
@@ -28,7 +21,7 @@ func Save(walletPassword string, memoryWallet *PassgenWallet) error {
 	}
 
 	// Write marshalled config to file
-	err = ioutil.WriteFile(user.HomeDir+"/.passgen", encryptedWallet, 0777)
+	err = ioutil.WriteFile(walletPath, encryptedWallet, 0777)
 	if err != nil {
 		return err
 	}
