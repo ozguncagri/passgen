@@ -15,11 +15,11 @@ var Generate = &cobra.Command{
 	Aliases: []string{"gen"},
 	Short:   "Password generator for your daily usage",
 	Long:    "Password generator for your daily usage in all your apps and web sites",
-	Run:     GenerateRunner,
+	Run:     generateRunner,
 }
 
-// GenerateRunner is root command for default password generation
-func GenerateRunner(cmd *cobra.Command, args []string) {
+// generateRunner is root command for default password generation
+func generateRunner(cmd *cobra.Command, args []string) {
 	key := interactors.AskForKeyName()
 	pool := interactors.AskForCharPool()
 	length := interactors.AskForPasswordLength()

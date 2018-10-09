@@ -10,12 +10,23 @@ import (
 )
 
 func main() {
+	var rootVersion bool
+
 	rootCmd := &cobra.Command{
 		Use:   "passgen",
 		Short: "Password generator for your daily usage",
 		Long:  "Password generator for your daily usage in all your apps and websites",
-		Run:   subcommands.GenerateRunner,
+		Run: func(cmd *cobra.Command, args []string) {
+			if rootVersion {
+				subcommands.Version.Run(cmd, args)
+				return
+			}
+
+			subcommands.Generate.Run(cmd, args)
+		},
 	}
+
+	rootCmd.Flags().BoolVarP(&rootVersion, "version", "V", false, "Print the version number of Passgen")
 
 	rootCmd.AddCommand(
 		subcommands.Generate,
