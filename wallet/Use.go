@@ -8,7 +8,7 @@ import (
 	"passgen/helpers"
 	"passgen/interactors"
 
-	"gopkg.in/AlecAivazis/survey.v1"
+	"github.com/AlecAivazis/survey"
 )
 
 // Use is used for generating password using settings defined in wallet item

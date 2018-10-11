@@ -6,7 +6,7 @@ import (
 
 	"passgen/helpers"
 
-	"gopkg.in/AlecAivazis/survey.v1"
+	"github.com/AlecAivazis/survey"
 )
 
 // AskForKeyName is asks for the key name for the password you are going to generate

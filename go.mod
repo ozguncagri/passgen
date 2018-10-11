@@ -1,6 +1,7 @@
 module passgen
 
 require (
+	github.com/AlecAivazis/survey v1.6.2
 	github.com/Netflix/go-expect v0.0.0-20180814212900-124a37274874 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/color v1.7.0
@@ -19,5 +20,5 @@ require (
 	github.com/stretchr/testify v1.2.2 // indirect
 	golang.org/x/crypto v0.0.0-20180910181607-0e37d006457b // indirect
 	golang.org/x/sys v0.0.0-20180909124046-d0be0721c37e // indirect
-	gopkg.in/AlecAivazis/survey.v1 v1.6.2
+	gopkg.in/AlecAivazis/survey.v1 v1.6.2 // indirect
 )

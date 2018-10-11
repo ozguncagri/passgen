@@ -5,7 +5,7 @@ import (
 	"os"
 	"strconv"
 
-	"gopkg.in/AlecAivazis/survey.v1"
+	"github.com/AlecAivazis/survey"
 )
 
 // AskForPasswordLength is asks user for the length of the password that you are going to generate

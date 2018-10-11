@@ -9,7 +9,7 @@ import (
 
 	"passgen/helpers"
 
-	"gopkg.in/AlecAivazis/survey.v1"
+	"github.com/AlecAivazis/survey"
 )
 
 // Update selects and updates wallet item

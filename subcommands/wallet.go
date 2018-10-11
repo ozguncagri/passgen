@@ -13,8 +13,8 @@ import (
 	"passgen/helpers"
 	"passgen/wallet"
 
+	"github.com/AlecAivazis/survey"
 	"github.com/spf13/cobra"
-	"gopkg.in/AlecAivazis/survey.v1"
 )
 
 // Wallet subcommand variable

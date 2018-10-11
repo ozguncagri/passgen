@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"gopkg.in/AlecAivazis/survey.v1"
+	"github.com/AlecAivazis/survey"
 )
 
 // AskForCharPool is ask for which character group are you going to use for the password you are generating

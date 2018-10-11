@@ -7,7 +7,8 @@ import (
 
 	"passgen/generators"
 	"passgen/helpers"
-	"gopkg.in/AlecAivazis/survey.v1"
+
+	"github.com/AlecAivazis/survey"
 )
 
 // AskForPassword is asks for master password
