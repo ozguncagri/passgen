@@ -1,21 +1,27 @@
 package wallet
 
 import (
-	"encoding/json"
+	"bytes"
+	"encoding/gob"
 	"io/ioutil"
-
 	"passgen/helpers"
 )
 
 // Save function saves marshals and saves global configuration variable to file
 func Save(walletPassword string, memoryWallet *PassgenWallet, walletPath string) error {
-	// Marshall current wallet
-	jsonWallet, err := json.Marshal(memoryWallet)
+	// Define encode buffer
+	var buf bytes.Buffer
+
+	// Define encoder
+	encoder := gob.NewEncoder(&buf)
+
+	// Serialize wallet object
+	err := encoder.Encode(memoryWallet)
 	if err != nil {
 		return err
 	}
 
-	encryptedWallet, err := helpers.AES256Encrypt(walletPassword, jsonWallet)
+	encryptedWallet, err := helpers.AES256Encrypt(walletPassword, buf.Bytes())
 	if err != nil {
 		return err
 	}

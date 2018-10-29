@@ -1,17 +1,17 @@
 package subcommands
 
 import (
-	"encoding/json"
+	"bytes"
+	"encoding/gob"
 	"errors"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/user"
-	"strings"
-
 	"passgen/generators"
 	"passgen/helpers"
 	"passgen/wallet"
+	"strings"
 
 	"github.com/AlecAivazis/survey"
 	"github.com/spf13/cobra"
@@ -109,9 +109,12 @@ func walletRunner(cmd *cobra.Command, args []string) {
 			log.Fatalln(decryptionErr)
 		}
 
-		unmarshalErr := json.Unmarshal(decryptedWallet, &memoryWallet)
-		if unmarshalErr != nil {
-			log.Fatalln(unmarshalErr)
+		byteReader := bytes.NewReader(decryptedWallet)
+
+		decoder := gob.NewDecoder(byteReader)
+		err := decoder.Decode(&memoryWallet)
+		if err != nil {
+			log.Fatalln(err)
 		}
 	}
 
