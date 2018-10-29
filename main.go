@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-
 	"passgen/subcommands"
 
 	"github.com/spf13/cobra"
@@ -32,7 +31,6 @@ func main() {
 		subcommands.Generate,
 		subcommands.Wallet,
 		subcommands.Safety,
-		subcommands.Suggestions,
 		subcommands.Version,
 	)
 
