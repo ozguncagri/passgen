@@ -3,13 +3,11 @@ package subcommands
 import (
 	"errors"
 	"os"
-	"strings"
-
 	"passgen/helpers"
 	"passgen/safety"
 
-	"github.com/spf13/cobra"
 	"github.com/AlecAivazis/survey"
+	"github.com/spf13/cobra"
 )
 
 // safetyCheck subcommand variable
@@ -38,5 +36,5 @@ func safetyCheckRunner(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
-	safety.Check(strings.TrimSpace(password))
+	safety.Check(password)
 }

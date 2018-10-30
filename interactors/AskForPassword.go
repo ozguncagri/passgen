@@ -3,10 +3,9 @@ package interactors
 import (
 	"errors"
 	"os"
-	"strings"
-
 	"passgen/generators"
 	"passgen/helpers"
+	"strings"
 
 	"github.com/AlecAivazis/survey"
 )
@@ -46,5 +45,5 @@ func AskForPassword() string {
 		os.Exit(1)
 	}
 
-	return strings.TrimSpace(password)
+	return password
 }
