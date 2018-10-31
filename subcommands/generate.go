@@ -2,7 +2,6 @@ package subcommands
 
 import (
 	"fmt"
-
 	"passgen/generators"
 	"passgen/interactors"
 
@@ -18,8 +17,23 @@ var Generate = &cobra.Command{
 	Run:     generateRunner,
 }
 
+var oneTimePassword bool
+
+func init() {
+	Generate.Flags().BoolVarP(&oneTimePassword, "one-time", "o", false, "Generates one-time (non-regeneratable) password")
+}
+
 // generateRunner is root command for default password generation
 func generateRunner(cmd *cobra.Command, args []string) {
+	if oneTimePassword {
+		pool := interactors.AskForCharPool()
+		length := interactors.AskForPasswordLength()
+		generatedPassword := generators.GenerateOneTimePassword(pool, length)
+
+		fmt.Printf("\nYour password is : %v\n", generatedPassword)
+		return
+	}
+
 	key := interactors.AskForKeyName()
 	pool := interactors.AskForCharPool()
 	length := interactors.AskForPasswordLength()
