@@ -3,8 +3,8 @@ package wallet
 import (
 	"errors"
 	"log"
-
 	"passgen/helpers"
+	"unicode/utf8"
 
 	"github.com/AlecAivazis/survey"
 )
@@ -29,7 +29,7 @@ func Remove(memoryWallet *PassgenWallet) {
 		Options: allKeys,
 	}
 	err := survey.AskOne(prompt, &walletItemKey, func(val interface{}) error {
-		if helpers.ProperCharacterCounter(val.(string)) == 0 {
+		if utf8.RuneCountInString(val.(string)) == 0 {
 			return errors.New("this is not valid selection")
 		}
 		return nil

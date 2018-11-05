@@ -3,9 +3,9 @@ package wallet
 import (
 	"errors"
 	"os"
-
 	"passgen/helpers"
 	"passgen/interactors"
+	"unicode/utf8"
 
 	"github.com/AlecAivazis/survey"
 )
@@ -20,7 +20,7 @@ func Add(memoryWallet *PassgenWallet) {
 	}
 
 	err := survey.AskOne(prompt, &keyName, func(val interface{}) error {
-		if helpers.ProperCharacterCounter(val.(string)) < 3 {
+		if utf8.RuneCountInString(val.(string)) < 3 {
 			return errors.New("value is too short. Min length is 3")
 		}
 

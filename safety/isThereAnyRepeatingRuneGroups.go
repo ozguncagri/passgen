@@ -1,12 +1,14 @@
 package safety
 
-import "passgen/helpers"
+import (
+	"unicode/utf8"
+)
 
 // isThereAnyRepeatingRuneGroups checks password for any repeating character groups
 func isThereAnyRepeatingRuneGroups(password string) bool {
 	pwd := []rune(password)
 	cache := make(map[string]int)
-	pwdLength := helpers.ProperCharacterCounter(password)
+	pwdLength := utf8.RuneCountInString(password)
 	isThere := false
 
 	for charSelection := 2; charSelection <= pwdLength; charSelection++ {

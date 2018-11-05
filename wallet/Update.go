@@ -4,10 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"passgen/helpers"
 	"strconv"
 	"strings"
-
-	"passgen/helpers"
+	"unicode/utf8"
 
 	"github.com/AlecAivazis/survey"
 )
@@ -32,7 +32,7 @@ func Update(memoryWallet *PassgenWallet) {
 		Options: allKeys,
 	}
 	err := survey.AskOne(prompt, &walletItemKey, func(val interface{}) error {
-		if helpers.ProperCharacterCounter(val.(string)) == 0 {
+		if utf8.RuneCountInString(val.(string)) == 0 {
 			return errors.New("this is not valid selection")
 		}
 		return nil

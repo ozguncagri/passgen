@@ -4,8 +4,8 @@ import (
 	"errors"
 	"os"
 	"passgen/generators"
-	"passgen/helpers"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/AlecAivazis/survey"
 )
@@ -19,7 +19,7 @@ func AskForPassword() string {
 	}
 
 	err := survey.AskOne(prompt, &password, func(val interface{}) error {
-		if helpers.ProperCharacterCounter(val.(string)) < 8 {
+		if utf8.RuneCountInString(val.(string)) < 8 {
 			return errors.New("value is too short. Min length is 8")
 		}
 

@@ -3,8 +3,7 @@ package interactors
 import (
 	"errors"
 	"os"
-
-	"passgen/helpers"
+	"unicode/utf8"
 
 	"github.com/AlecAivazis/survey"
 )
@@ -18,7 +17,7 @@ func AskForKeyName() string {
 	}
 
 	err := survey.AskOne(prompt, &name, func(val interface{}) error {
-		if helpers.ProperCharacterCounter(val.(string)) < 3 {
+		if utf8.RuneCountInString(val.(string)) < 3 {
 			return errors.New("value is too short. Min length is 3")
 		}
 		return nil

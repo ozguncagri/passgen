@@ -3,8 +3,8 @@ package subcommands
 import (
 	"errors"
 	"os"
-	"passgen/helpers"
 	"passgen/safety"
+	"unicode/utf8"
 
 	"github.com/AlecAivazis/survey"
 	"github.com/spf13/cobra"
@@ -27,7 +27,7 @@ func safetyCheckRunner(cmd *cobra.Command, args []string) {
 	}
 
 	err := survey.AskOne(prompt, &password, func(val interface{}) error {
-		if helpers.ProperCharacterCounter(val.(string)) < 1 {
+		if utf8.RuneCountInString(val.(string)) < 1 {
 			return errors.New("value is too short. Min length is 1")
 		}
 		return nil

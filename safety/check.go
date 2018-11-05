@@ -2,13 +2,13 @@ package safety
 
 import (
 	"fmt"
-
 	"passgen/helpers"
+	"unicode/utf8"
 )
 
 // Check is tests password for bunch of requirements
 func Check(password string) {
-	length := helpers.ProperCharacterCounter(password)
+	length := utf8.RuneCountInString(password)
 	upperCount, lowerCount, numberCount, symbolCount, nonStandardCount := characterTypeCounter(password)
 
 	fmt.Print("Is password at least 8 characters? : ")

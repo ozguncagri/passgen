@@ -1,6 +1,7 @@
 package subcommands
 
 import (
+	"unicode/utf8"
 	"bytes"
 	"encoding/gob"
 	"errors"
@@ -76,7 +77,7 @@ func walletRunner(cmd *cobra.Command, args []string) {
 	}
 
 	surveyErr := survey.AskOne(prompt, &walletPassword, func(val interface{}) error {
-		if helpers.ProperCharacterCounter(val.(string)) < 8 {
+		if utf8.RuneCountInString(val.(string)) < 8 {
 			return errors.New("value is too short. Min length is 8")
 		}
 
@@ -129,7 +130,7 @@ walletLoop:
 			Options: allKeys,
 		}
 		err := survey.AskOne(prompt, &walletItemKey, func(val interface{}) error {
-			if helpers.ProperCharacterCounter(val.(string)) == 0 {
+			if utf8.RuneCountInString(val.(string)) == 0 {
 				return errors.New("this is not valid selection")
 			}
 			return nil
