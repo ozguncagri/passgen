@@ -1,7 +1,6 @@
 package subcommands
 
 import (
-	"unicode/utf8"
 	"bytes"
 	"encoding/gob"
 	"errors"
@@ -13,6 +12,7 @@ import (
 	"passgen/helpers"
 	"passgen/wallet"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/AlecAivazis/survey"
 	"github.com/spf13/cobra"
@@ -21,8 +21,8 @@ import (
 // Wallet subcommand variable
 var Wallet = &cobra.Command{
 	Use:   "wallet",
-	Short: "Print wallet items",
-	Long:  "Prints list of stored wallet items on your config",
+	Short: "Manage wallet items",
+	Long:  "Manage wallet items on your wallet config file",
 	Run:   walletRunner,
 }
 
@@ -35,9 +35,9 @@ func init() {
 		log.Fatalln(userErr)
 	}
 
-	walletFilePath := user.HomeDir + "/.passgen"
+	walletFilePath := user.HomeDir + "/.passgenWallet"
 
-	Wallet.Flags().StringVarP(&walletPath, "wallet-path", "w", walletFilePath, "Set different wallet file path")
+	Wallet.Flags().StringVarP(&walletPath, "wallet-path", "", walletFilePath, "Set different wallet file path")
 }
 
 // wallet adds password generation item to the wallet
