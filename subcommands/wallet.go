@@ -51,7 +51,6 @@ func walletRunner(cmd *cobra.Command, args []string) {
 	// Read encrypted wallet as a byte array
 	encryptedWallet, fileReadErr := ioutil.ReadFile(walletPath)
 	if fileReadErr != nil {
-		//wallet is not exists wanna create one
 		walletCreationApproval := false
 		prompt := &survey.Confirm{
 			Message: "Seems like you don't have any wallet. Would you like to create one?",
