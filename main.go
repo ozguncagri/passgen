@@ -30,6 +30,7 @@ func main() {
 	rootCmd.AddCommand(
 		subcommands.Generate,
 		subcommands.Wallet,
+		subcommands.Storage,
 		subcommands.Safety,
 		subcommands.Version,
 	)
