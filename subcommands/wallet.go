@@ -66,7 +66,7 @@ func walletRunner(cmd *cobra.Command, args []string) {
 	passwordSurveyHelp := "Write your wallet's password for unlocking it"
 	if fileReadErr != nil {
 		passwordSurveyMessage = "Enter password for your wallet :"
-		passwordSurveyHelp = "Write a password for loging your new wallet"
+		passwordSurveyHelp = "Write a password for locking your new wallet"
 	}
 
 	walletPassword := ""
