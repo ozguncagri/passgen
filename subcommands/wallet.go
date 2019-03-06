@@ -35,7 +35,7 @@ func init() {
 		log.Fatalln(userErr)
 	}
 
-	walletFilePath := user.HomeDir + "/.passgenWallet"
+	walletFilePath := user.HomeDir + "/.passgen/wallet"
 
 	Wallet.Flags().StringVarP(&walletPath, "wallet-path", "", walletFilePath, "Set different wallet file path")
 }
