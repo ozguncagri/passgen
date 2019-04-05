@@ -7,7 +7,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/AlecAivazis/survey"
+	"gopkg.in/AlecAivazis/survey.v1"
 )
 
 // AskForPassword is asks for master password

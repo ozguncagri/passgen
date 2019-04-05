@@ -5,7 +5,7 @@ import (
 	"os"
 	"unicode/utf8"
 
-	"github.com/AlecAivazis/survey"
+	"gopkg.in/AlecAivazis/survey.v1"
 )
 
 // AskForKeyName is asks for the key name for the password you are going to generate

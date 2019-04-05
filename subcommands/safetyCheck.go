@@ -6,8 +6,8 @@ import (
 	"passgen/safety"
 	"unicode/utf8"
 
-	"github.com/AlecAivazis/survey"
 	"github.com/spf13/cobra"
+	"gopkg.in/AlecAivazis/survey.v1"
 )
 
 // safetyCheck subcommand variable

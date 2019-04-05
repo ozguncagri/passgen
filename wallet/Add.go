@@ -7,7 +7,7 @@ import (
 	"passgen/interactors"
 	"unicode/utf8"
 
-	"github.com/AlecAivazis/survey"
+	"gopkg.in/AlecAivazis/survey.v1"
 )
 
 // Add adds password generation item to the wallet

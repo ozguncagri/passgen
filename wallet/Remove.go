@@ -6,7 +6,7 @@ import (
 	"passgen/helpers"
 	"unicode/utf8"
 
-	"github.com/AlecAivazis/survey"
+	"gopkg.in/AlecAivazis/survey.v1"
 )
 
 // Remove is remotes one ore more items from wallet
