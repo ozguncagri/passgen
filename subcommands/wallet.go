@@ -62,6 +62,7 @@ func walletRunner(cmd *cobra.Command, args []string) {
 		}
 	}
 
+	// Update survey messages depending on wallet's existence
 	passwordSurveyMessage := "What is your wallet's password :"
 	passwordSurveyHelp := "Write your wallet's password for unlocking it"
 	if fileReadErr != nil {

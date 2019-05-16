@@ -21,12 +21,13 @@ func Save(walletPassword string, memoryWallet *PassgenWallet, walletPath string)
 		return err
 	}
 
+	// Encrypt encoded wallet
 	encryptedWallet, err := helpers.AES256Encrypt(walletPassword, buf.Bytes())
 	if err != nil {
 		return err
 	}
 
-	// Write marshalled config to file
+	// Write encrypted wallet to file
 	err = ioutil.WriteFile(walletPath, encryptedWallet, 0777)
 	if err != nil {
 		return err

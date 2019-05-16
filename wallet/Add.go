@@ -37,6 +37,7 @@ func Add(memoryWallet *PassgenWallet) {
 	pool := interactors.AskForCharPool()
 	length := interactors.AskForPasswordLength()
 
+	// Add password generation credentials to wallet
 	memoryWallet.Wallet[keyName] = Item{
 		Pool:   pool,
 		Length: length,

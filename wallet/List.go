@@ -10,7 +10,7 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-// List subcommand for wallet lister
+// List subcommand for table of password generation credentials in wallet
 func List(memoryWallet *PassgenWallet) {
 	if len(memoryWallet.Wallet) == 0 {
 		helpers.NegativePrintf("\nThere is no item in your wallet\n\n")

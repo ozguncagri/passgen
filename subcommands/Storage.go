@@ -61,6 +61,7 @@ func storageRunner(cmd *cobra.Command, args []string) {
 		}
 	}
 
+	// Update survey messages depending on storage's existence
 	passwordSurveyMessage := "What is your storage's password :"
 	passwordSurveyHelp := "Write your storage's password for unlocking it"
 	if fileReadErr != nil {
@@ -101,7 +102,7 @@ func storageRunner(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
-	// if there is no read error then decrypt and unmarshal storage
+	// If there is no read error then decrypt and unmarshal storage
 	if fileReadErr == nil {
 		decryptedStorage, decryptionErr := helpers.AES256Decrypt(storagePassword, encryptedStorage)
 		if decryptionErr != nil {

@@ -58,6 +58,7 @@ func Update(memoryStorage *PassgenStorage) {
 		os.Exit(1)
 	}
 
+	// Update credentials on storage
 	memoryStorage.Storage[storageItemKey] = Item{
 		AppName:  storageItemKey,
 		UserName: userName,

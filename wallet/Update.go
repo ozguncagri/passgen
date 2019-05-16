@@ -86,6 +86,7 @@ func Update(memoryWallet *PassgenWallet) {
 		os.Exit(1)
 	}
 
+	// Update password generation credentials on wallet
 	memoryWallet.Wallet[walletItemKey] = Item{
 		Pool:   selectedCharPool,
 		Length: length,

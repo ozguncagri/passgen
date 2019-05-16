@@ -1,8 +1,8 @@
 package subcommands
 
 import (
-	"fmt"
 	"passgen/generators"
+	"passgen/helpers"
 	"passgen/interactors"
 
 	"github.com/spf13/cobra"
@@ -25,15 +25,17 @@ func init() {
 
 // generateRunner is root command for default password generation
 func generateRunner(cmd *cobra.Command, args []string) {
+	// If one-time flag is passed than generate non-regeneratable passsword
 	if oneTimePassword {
 		pool := interactors.AskForCharPool()
 		length := interactors.AskForPasswordLength()
 		generatedPassword := generators.GenerateOneTimePassword(pool, length)
 
-		fmt.Printf("\nYour password is : %v\n", generatedPassword)
+		helpers.ResultPrintf("\nYour password is : %v\n\n", generatedPassword)
 		return
 	}
 
+	// Otherwise generate regeneratable password
 	key := interactors.AskForKeyName()
 	pool := interactors.AskForCharPool()
 	length := interactors.AskForPasswordLength()
@@ -41,5 +43,5 @@ func generateRunner(cmd *cobra.Command, args []string) {
 
 	generatedPassword := generators.GeneratePassword(pool, key, masterPassword, length)
 
-	fmt.Printf("\nYour password is : %v\n", generatedPassword)
+	helpers.ResultPrintf("\nYour password is : %v\n\n", generatedPassword)
 }

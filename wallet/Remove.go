@@ -9,7 +9,7 @@ import (
 	"gopkg.in/AlecAivazis/survey.v1"
 )
 
-// Remove is remotes one ore more items from wallet
+// Remove is removes an item from wallet
 func Remove(memoryWallet *PassgenWallet) {
 	if len(memoryWallet.Wallet) == 0 {
 		helpers.NegativePrintf("\nThere is no item in your wallet\n\n")

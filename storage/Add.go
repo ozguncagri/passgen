@@ -55,6 +55,7 @@ func Add(memoryStorage *PassgenStorage) {
 		os.Exit(1)
 	}
 
+	// Add credentials to storage
 	memoryStorage.Storage[appName] = Item{
 		AppName:  appName,
 		UserName: userName,

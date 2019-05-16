@@ -8,7 +8,7 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-// List subcommand for wallet lister
+// List subcommand for listing table of credentials in storage
 func List(memoryStorage *PassgenStorage) {
 	if len(memoryStorage.Storage) == 0 {
 		helpers.NegativePrintf("\nThere is no item in your storage\n\n")

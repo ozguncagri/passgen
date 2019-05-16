@@ -41,6 +41,8 @@ func Use(memoryWallet *PassgenWallet) {
 	}
 
 	masterPassword := interactors.AskForPassword()
+
+	// Generate password using wallet item and user's master password
 	generatedPassword := generators.GeneratePassword(
 		memoryWallet.Wallet[walletItemKey].Pool,
 		walletItemKey,
