@@ -22,15 +22,4 @@ buildWindowsProduction:
 	zip passgen_windows_amd64.zip passgen.exe
 	rm passgen.exe
 
-buildAllProduction:
-	GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o passgen
-	zip passgen_darwin_amd64.zip passgen
-	rm passgen
-
-	GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o passgen
-	zip passgen_linux_amd64.zip passgen
-	rm passgen
-
-	GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o passgen.exe
-	zip passgen_windows_amd64.zip passgen.exe
-	rm passgen.exe
+buildAllProduction: buildDarwinProduction buildLinuxProduction buildWindowsProduction
