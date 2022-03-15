@@ -17,5 +17,5 @@ var Version = &cobra.Command{
 
 // version subcommand is prints application's version number to screen
 func versionRunner(cmd *cobra.Command, args []string) {
-	fmt.Println("Passgen : Password generator for general purpose - v1")
+	fmt.Println("Passgen : Password generator for general purpose - v2")
 }
