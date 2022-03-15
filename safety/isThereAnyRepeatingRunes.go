@@ -2,11 +2,10 @@ package safety
 
 // isThereAnyRepeatingRunes checks password for any repeating character
 func isThereAnyRepeatingRunes(password string) bool {
-	runeGroup := []rune(password)          // define rune array from current password
 	runeCountStorage := make(map[rune]int) // define map with key of rune and it's count as int
 
 	// Loop trough rune array to count of some runes
-	for _, v := range runeGroup {
+	for _, v := range password {
 		runeCountStorage[v]++
 	}
 

@@ -9,7 +9,7 @@ import (
 // characterTypeCounter counts keyboard writable upper-case, lower-case, digit, symbol and non-standard characters
 func characterTypeCounter(password string) (upperCount, lowerCount, numberCount, symbolCount, nonStandardCount int) {
 	// Loop through password runes and detect rune types
-	for _, v := range []rune(password) {
+	for _, v := range password {
 		// Count standart upper case letters
 		if strings.ContainsAny(string(v), string(generators.GenerateKeyboardWritableRunePool("U"))) {
 			upperCount++
