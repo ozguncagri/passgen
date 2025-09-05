@@ -13,7 +13,7 @@ import (
 
 // deriveKey generates a 32-byte AES key from password and salt
 func deriveKey(password, salt []byte) []byte {
-	return pbkdf2.Key(password, salt, 4096, 32, sha256.New)
+	return pbkdf2.Key(password, salt, 600_000, 32, sha256.New)
 }
 
 // Encrypt encrypts plaintext using a password and returns Base64 string
