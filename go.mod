@@ -6,6 +6,7 @@ require (
 	github.com/fatih/color v1.18.0
 	github.com/olekukonko/tablewriter v1.0.9
 	github.com/spf13/cobra v1.10.1
+	golang.org/x/crypto v0.41.0
 	gopkg.in/AlecAivazis/survey.v1 v1.8.8
 )
 

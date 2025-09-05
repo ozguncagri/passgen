@@ -3,7 +3,7 @@ package storage
 import (
 	"bytes"
 	"encoding/gob"
-	"io/ioutil"
+	"os"
 	"passgen/helpers"
 )
 
@@ -22,13 +22,13 @@ func Save(storagePassword string, memoryStorage *PassgenStorage, storagePath str
 	}
 
 	// Encrypt encoded storage
-	encryptedStorage, err := helpers.AES256Encrypt(storagePassword, buf.Bytes())
+	encryptedStorage, err := helpers.Encrypt(buf.Bytes(), storagePassword)
 	if err != nil {
 		return err
 	}
 
 	// Write encrypted storage to file
-	err = ioutil.WriteFile(storagePath, encryptedStorage, 0777)
+	err = os.WriteFile(storagePath, encryptedStorage, 0777)
 	if err != nil {
 		return err
 	}

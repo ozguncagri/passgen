@@ -22,7 +22,7 @@ func Save(walletPassword string, memoryWallet *PassgenWallet, walletPath string)
 	}
 
 	// Encrypt encoded wallet
-	encryptedWallet, err := helpers.AES256Encrypt(walletPassword, buf.Bytes())
+	encryptedWallet, err := helpers.Encrypt(buf.Bytes(), walletPassword)
 	if err != nil {
 		return err
 	}

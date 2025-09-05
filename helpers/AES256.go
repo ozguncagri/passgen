@@ -5,69 +5,76 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"crypto/sha256"
+	"fmt"
 	"io"
+
+	"golang.org/x/crypto/pbkdf2"
 )
 
-// AES256Encrypt encrypts plaintext using password and returns it as ciphertext
-func AES256Encrypt(password string, plaintext []byte) ([]byte, error) {
-	// Convert password to sha-256 hash for guarantee algorithm to use AES-256
-	passwordHash := sha256.New()
-	passwordHash.Write([]byte(password))
-	key := passwordHash.Sum(nil)
-
-	// Define AES cipher
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return nil, err
-	}
-
-	// Define GCM for AES cipher
-	aesGCM, err := cipher.NewGCM(block)
-	if err != nil {
-		return nil, err
-	}
-
-	//Create a nonce from secure random bytes with desired size from GCM
-	nonce := make([]byte, aesGCM.NonceSize())
-	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
-		panic(err.Error())
-	}
-
-	// Encrypt plaintext using GCM with nonce
-	ciphertext := aesGCM.Seal(nil, nonce, plaintext, nil)
-
-	return ciphertext, nil
+// deriveKey generates a 32-byte AES key from password and salt
+func deriveKey(password, salt []byte) []byte {
+	return pbkdf2.Key(password, salt, 4096, 32, sha256.New)
 }
 
-// AES256Decrypt decrypts ciphertext using password and returns it as plaintext
-func AES256Decrypt(password string, encryptedData []byte) ([]byte, error) {
-	// Convert password to sha-256 hash for guarantee algorithm to use AES-256
-	passwordHash := sha256.New()
-	passwordHash.Write([]byte(password))
-	key := passwordHash.Sum(nil)
+// Encrypt encrypts plaintext using a password and returns Base64 string
+func Encrypt(plaintext []byte, password string) ([]byte, error) {
+	// Generate random salt
+	salt := make([]byte, 16)
+	if _, err := io.ReadFull(rand.Reader, salt); err != nil {
+		return []byte{}, err
+	}
 
-	// Define AES cipher
+	key := deriveKey([]byte(password), salt)
+
 	block, err := aes.NewCipher(key)
 	if err != nil {
-		return nil, err
+		return []byte{}, err
 	}
 
-	// Define GCM for AES cipher
 	aesGCM, err := cipher.NewGCM(block)
 	if err != nil {
-		return nil, err
+		return []byte{}, err
 	}
 
-	// Extract nonce from encrypted data
-	nonce := encryptedData[:aesGCM.NonceSize()]
+	nonce := make([]byte, aesGCM.NonceSize())
+	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
+		return []byte{}, err
+	}
 
-	// Extract ciphertext from encrypted data
-	ciphertext := encryptedData[aesGCM.NonceSize():]
+	ciphertext := aesGCM.Seal(nil, nonce, plaintext, nil)
 
-	// Decrypt ciphertext using GCM with nonce
-	plaintext, err := aesGCM.Open(nil, nonce, ciphertext, nil)
+	// Combine salt + nonce + ciphertext
+	result := append(salt, nonce...)
+	result = append(result, ciphertext...)
+
+	return result, nil
+}
+
+// Decrypt decrypts a Base64-encoded string using a password
+func Decrypt(ciphertext []byte, password string) ([]byte, error) {
+	if len(ciphertext) < 16+12 { // minimum salt + nonce size
+		return []byte{}, fmt.Errorf("invalid encrypted data")
+	}
+
+	salt := ciphertext[:16]
+	key := deriveKey([]byte(password), salt)
+
+	block, err := aes.NewCipher(key)
 	if err != nil {
-		return nil, err
+		return []byte{}, err
+	}
+
+	aesGCM, err := cipher.NewGCM(block)
+	if err != nil {
+		return []byte{}, err
+	}
+
+	nonce := ciphertext[16 : 16+aesGCM.NonceSize()]
+	rawCiphertext := ciphertext[16+aesGCM.NonceSize():]
+
+	plaintext, err := aesGCM.Open(nil, nonce, rawCiphertext, nil)
+	if err != nil {
+		return []byte{}, err
 	}
 
 	return plaintext, nil

@@ -125,7 +125,7 @@ func walletRunner(cmd *cobra.Command, args []string) {
 
 	// if there is no read error then decrypt and unmarshal wallet
 	if fileReadErr == nil {
-		decryptedWallet, decryptionErr := helpers.AES256Decrypt(walletPassword, encryptedWallet)
+		decryptedWallet, decryptionErr := helpers.Decrypt(encryptedWallet, walletPassword)
 		if decryptionErr != nil {
 			log.Fatalln(decryptionErr)
 		}

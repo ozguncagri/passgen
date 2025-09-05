@@ -124,7 +124,7 @@ func storageRunner(cmd *cobra.Command, args []string) {
 
 	// If there is no read error then decrypt and unmarshal storage
 	if fileReadErr == nil {
-		decryptedStorage, decryptionErr := helpers.AES256Decrypt(storagePassword, encryptedStorage)
+		decryptedStorage, decryptionErr := helpers.Decrypt(encryptedStorage, storagePassword)
 		if decryptionErr != nil {
 			log.Fatalln(decryptionErr)
 		}
