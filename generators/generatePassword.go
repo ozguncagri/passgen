@@ -1,16 +1,25 @@
 package generators
 
-import "passgen/helpers"
+import (
+	"log"
+	"strconv"
+	"strings"
+)
 
 // GeneratePassword function used for generating password with passed arguments
 func GeneratePassword(pool, key, masterPassword string, length int) string {
-	// Securely generate seed number from SHA512 hash of key, master password, length and character pool
-	seedNumber := helpers.SecureStringCombiner(
-		helpers.SHA512Calculator(key),
-		helpers.SHA512Calculator(masterPassword),
-		helpers.SHA512Calculator(string(length)),
-		helpers.SHA512Calculator(pool),
-	)
+	var stringer strings.Builder
+	stringer.WriteString(key)
+	stringer.WriteString(masterPassword)
+	stringer.WriteString(strconv.Itoa(length))
+	stringer.WriteString(pool)
 
-	return string(generateRandomRuneArray(length, pool, seedNumber))
+	runes, err := generateRandomRuneArray(length, pool, stringer.String())
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	output := string(runes)
+
+	return output
 }

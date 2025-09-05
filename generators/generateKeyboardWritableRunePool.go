@@ -1,33 +1,37 @@
 package generators
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
-// GenerateKeyboardWritableRunePool is generates array of runes depending on scope
-func GenerateKeyboardWritableRunePool(scope string) (randomPool []rune) {
+// GenerateKeyboardWritableRunePool generates a slice of runes depending on the scope
+func GenerateKeyboardWritableRunePool(scope string) ([]rune, error) {
 	lowers := []rune("abcdefghijklmnopqrstuvwxyz")
 	uppers := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	numbers := []rune("0123456789")
 	symbols := []rune("!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~")
 
-	// Include lower characters if scope has 'L'
-	if strings.Contains(strings.ToUpper(scope), "L") {
-		randomPool = append(randomPool, lowers...)
+	var pool []rune
+
+	scopeUpper := strings.ToUpper(scope)
+
+	if strings.Contains(scopeUpper, "L") {
+		pool = append(pool, lowers...)
+	}
+	if strings.Contains(scopeUpper, "U") {
+		pool = append(pool, uppers...)
+	}
+	if strings.Contains(scopeUpper, "N") {
+		pool = append(pool, numbers...)
+	}
+	if strings.Contains(scopeUpper, "S") {
+		pool = append(pool, symbols...)
 	}
 
-	// Include upper characters if scope has 'U'
-	if strings.Contains(strings.ToUpper(scope), "U") {
-		randomPool = append(randomPool, uppers...)
+	if len(pool) == 0 {
+		return nil, fmt.Errorf("invalid scope: no characters available")
 	}
 
-	// Include numerical if scope has 'N'
-	if strings.Contains(strings.ToUpper(scope), "N") {
-		randomPool = append(randomPool, numbers...)
-	}
-
-	// Include symbols if scope has 'S'
-	if strings.Contains(strings.ToUpper(scope), "S") {
-		randomPool = append(randomPool, symbols...)
-	}
-
-	return
+	return pool, nil
 }

@@ -34,7 +34,7 @@ func AES256Encrypt(password string, plaintext []byte) ([]byte, error) {
 	}
 
 	// Encrypt plaintext using GCM with nonce
-	ciphertext := aesGCM.Seal(nonce, nonce, plaintext, nil)
+	ciphertext := aesGCM.Seal(nil, nonce, plaintext, nil)
 
 	return ciphertext, nil
 }

@@ -1,5 +1,2 @@
 .vscode
-passgen
-passgen_darwin_amd64.zip
-passgen_linux_amd64.zip
-passgen_windows_amd64.zip
+bin

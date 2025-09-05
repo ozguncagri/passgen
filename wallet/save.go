@@ -3,7 +3,7 @@ package wallet
 import (
 	"bytes"
 	"encoding/gob"
-	"io/ioutil"
+	"os"
 	"passgen/helpers"
 )
 
@@ -28,7 +28,7 @@ func Save(walletPassword string, memoryWallet *PassgenWallet, walletPath string)
 	}
 
 	// Write encrypted wallet to file
-	err = ioutil.WriteFile(walletPath, encryptedWallet, 0777)
+	err = os.WriteFile(walletPath, encryptedWallet, 0777)
 	if err != nil {
 		return err
 	}

@@ -1,6 +1,7 @@
 package subcommands
 
 import (
+	"log"
 	"passgen/generators"
 	"passgen/helpers"
 	"passgen/interactors"
@@ -29,7 +30,10 @@ func generateRunner(cmd *cobra.Command, args []string) {
 	if oneTimePassword {
 		pool := interactors.AskForCharPool()
 		length := interactors.AskForPasswordLength()
-		generatedPassword := generators.GenerateOneTimePassword(pool, length)
+		generatedPassword, err := generators.GenerateOneTimePassword(pool, length)
+		if err != nil {
+			log.Fatalln(err)
+		}
 
 		helpers.ResultPrintf("\nYour password is : %v\n\n", generatedPassword)
 		return

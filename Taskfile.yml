@@ -1,0 +1,156 @@
+version: "3"
+
+silent: true
+
+vars:
+    PROJECT_NAME: "passgen"
+    BIN_DIR: ./bin
+
+tasks:
+    default:
+        desc: list all available tasks
+        cmds:
+            - task --list-all
+
+
+
+    run:
+        desc: run the backend in development mode
+        cmds:
+            - go run cmd/{{.PROJECT_NAME}}/main.go
+
+
+
+    clear:
+        desc: clear dist directories and built binaries
+        cmds:
+            - task: clear:unix
+            - task: clear:windows
+
+    clear:windows:
+        desc: clear dist directories and built binaries on windows
+        internal: true
+        platforms: [windows]
+        cmds:
+            - powershell -NoProfile -Command "if (Test-Path {{.BIN_DIR}}) { Remove-Item {{.BIN_DIR}} -Recurse -Force }"
+
+    clear:unix:
+        desc: clear dist directories and built binaries on unix systems (linux, macos)
+        internal: true
+        platforms: [linux, darwin]
+        cmds:
+            - rm -rf {{.BIN_DIR}}
+
+
+
+    build:
+        desc: build the project for the specified target OS (default, linux, macos, windows)
+        vars:
+            TARGET: '{{default "current" .TARGET}}'
+        preconditions:
+            - '[ "{{.TARGET}}" = "current" ] || [ "{{.TARGET}}" = "linux" ] || [ "{{.TARGET}}" = "darwin" ] || [ "{{.TARGET}}" = "windows" ]'
+        cmds:
+            - task: build:{{.TARGET}}
+
+    build:current:
+        desc: build the project for the current OS
+        internal: true
+        cmds:
+            - go build -trimpath -ldflags "-s -w" -o {{.BIN_DIR}}/{{.PROJECT_NAME}}{{if eq OS "windows"}}.exe{{end}} cmd/{{.PROJECT_NAME}}/main.go
+
+    build:linux:
+        desc: build the project for linux
+        internal: true
+        env:
+            GOOS: "linux"
+            GOARCH: "amd64"
+        cmds:
+            - go build -trimpath -ldflags "-s -w" -o {{.BIN_DIR}}/{{.PROJECT_NAME}} cmd/{{.PROJECT_NAME}}/main.go
+
+    build:darwin:
+        desc: build the project for macos
+        internal: true
+        env:
+            GOOS: "darwin"
+            GOARCH: "amd64"
+        cmds:
+            - go build -trimpath -ldflags "-s -w" -o {{.BIN_DIR}}/{{.PROJECT_NAME}} cmd/{{.PROJECT_NAME}}/main.go
+
+    build:windows:
+        desc: build the project for windows
+        internal: true
+        env:
+            GOOS: "windows"
+            GOARCH: "amd64"
+        cmds:
+            - go build -trimpath -ldflags "-s -w" -o {{.BIN_DIR}}/{{.PROJECT_NAME}}.exe cmd/{{.PROJECT_NAME}}/main.go
+
+
+
+    dev:test:
+        desc: run all tests
+        cmds:
+            - go test -v -race -buildvcs ./...
+
+    dev:test:cover:
+        desc: run all tests with coverage report
+        cmds:
+            - go test -v -race -buildvcs -coverprofile=./coverage.out ./...
+            - go tool cover -html=./coverage.out -o=./coverage.html
+
+
+
+    qa:escape-analysis:
+        desc: perform escape analysis for different target OS
+        cmds:
+            - go build -gcflags "-m -l" -o {{if eq OS "windows"}}NUL{{else}}/dev/null{{end}} main.go
+
+    qa:analyze-binary-web:
+        desc: analyze the built binary with a web interface
+        cmds:
+            - gsa --web {{.BIN_DIR}}/{{.PROJECT_NAME}}
+
+    qa:analyze-binary-tui:
+        desc: analyze the built binary with a terminal interface
+        cmds:
+            - gsa --tui {{.BIN_DIR}}/{{.PROJECT_NAME}}
+
+    qa:tidy:
+        desc: run go mod tidy
+        cmds:
+            - go fmt ./...
+            - go mod tidy -v
+
+    qa:lint:fix:
+        desc: run golangci-lint and fix issues
+        cmds:
+            - golangci-lint run --fix
+
+    qa:audit:
+        desc: run various code quality and security checks
+        cmds:
+            - go mod verify
+            - go vet ./...
+            - staticcheck -checks="SA" ./...
+            - govulncheck ./...
+            - go test -race -buildvcs -vet=off ./...
+
+
+
+    tools:install:
+        desc: install all required development tools
+        cmds:
+            - go install golang.org/x/tools/gopls@latest
+            - go install github.com/go-delve/delve/cmd/dlv@latest
+            - go install golang.org/x/tools/cmd/goimports@latest
+            - go install honnef.co/go/tools/cmd/staticcheck@latest
+            - go install github.com/ramya-rao-a/go-outline@latest
+            - go install golang.org/x/tools/cmd/gorename@latest
+            - go install golang.org/x/tools/cmd/guru@latest
+            - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+            - go install github.com/cweill/gotests/gotests@latest
+            - go install github.com/josharian/impl@latest
+            - go install github.com/haya14busa/goplay/cmd/goplay@latest
+            - go install golang.org/x/vuln/cmd/govulncheck@latest
+            - go install github.com/Zxilly/go-size-analyzer/cmd/gsa@latest
+            - go install github.com/4meepo/tagalign/cmd/tagalign@latest

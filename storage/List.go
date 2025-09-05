@@ -16,7 +16,7 @@ func List(memoryStorage *PassgenStorage) {
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Application Name", "User Name", "Password"})
+	table.Header("Application Name", "User Name", "Password")
 
 	for _, v := range memoryStorage.Storage {
 		table.Append([]string{v.AppName, v.UserName, v.Password})

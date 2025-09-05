@@ -18,7 +18,7 @@ func List(memoryWallet *PassgenWallet) {
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Key Name", "Character Pool", "Length"})
+	table.Header("Key Name", "Character Pool", "Length")
 
 	for key, v := range memoryWallet.Wallet {
 		seperatedPool := strings.Split(v.Pool, "")
