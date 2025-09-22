@@ -1,30 +1,36 @@
 package helpers
 
 import (
+	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
-	"crypto/sha256"
+	"encoding/binary"
 	"fmt"
 	"io"
 
-	"golang.org/x/crypto/pbkdf2"
+	"golang.org/x/crypto/argon2"
 )
 
-// deriveKey generates a 32-byte AES key from password and salt
-func deriveKey(password, salt []byte) []byte {
-	return pbkdf2.Key(password, salt, 600_000, 32, sha256.New)
+// deriveKeyArgon2id derives a 32-byte AES key using Argon2id with given parameters.
+func deriveKeyArgon2id(password, salt []byte, time uint32, memoryKiB uint32, parallelism uint8) []byte {
+	return argon2.IDKey(password, salt, time, memoryKiB, parallelism, 32)
 }
 
 // Encrypt encrypts plaintext using a password and returns Base64 string
 func Encrypt(plaintext []byte, password string) ([]byte, error) {
-	// Generate random salt
-	salt := make([]byte, 16)
+	// Generate 32 byte salt
+	salt := make([]byte, 32)
 	if _, err := io.ReadFull(rand.Reader, salt); err != nil {
 		return []byte{}, err
 	}
 
-	key := deriveKey([]byte(password), salt)
+	// Argon2 parameters
+	timeCost := uint32(3)          // 3 Iterations
+	memoryKiB := uint32(64 * 1024) // 64MB Memory Usage
+	parallelism := uint8(4)        // 4 Parallelism
+
+	key := deriveKeyArgon2id([]byte(password), salt, timeCost, memoryKiB, parallelism)
 
 	block, err := aes.NewCipher(key)
 	if err != nil {
@@ -43,21 +49,58 @@ func Encrypt(plaintext []byte, password string) ([]byte, error) {
 
 	ciphertext := aesGCM.Seal(nil, nonce, plaintext, nil)
 
-	// Combine salt + nonce + ciphertext
-	result := append(salt, nonce...)
-	result = append(result, ciphertext...)
+	// Construct blob: salt | time | memory | parallelism | nonce | ciphertext
+	buf := new(bytes.Buffer)
+	if _, err := buf.Write(salt); err != nil {
+		return []byte{}, err
+	}
+	if err := binary.Write(buf, binary.BigEndian, timeCost); err != nil {
+		return []byte{}, err
+	}
+	if err := binary.Write(buf, binary.BigEndian, memoryKiB); err != nil {
+		return []byte{}, err
+	}
+	if err := buf.WriteByte(parallelism); err != nil {
+		return []byte{}, err
+	}
+	if _, err := buf.Write(nonce); err != nil {
+		return []byte{}, err
+	}
+	if _, err := buf.Write(ciphertext); err != nil {
+		return []byte{}, err
+	}
 
-	return result, nil
+	return buf.Bytes(), nil
 }
 
 // Decrypt decrypts a Base64-encoded string using a password
-func Decrypt(ciphertext []byte, password string) ([]byte, error) {
-	if len(ciphertext) < 16+12 { // minimum salt + nonce size
+func Decrypt(data []byte, password string) ([]byte, error) {
+	// salt (32 bytes) + time (4 bytes uint32) + memory (4 bytes uint32) + parallelism (1 bytes uint8) + nonce (12 bytes)
+	minSize := 32 + 4 + 4 + 1 + 12
+	if len(data) < minSize {
 		return []byte{}, fmt.Errorf("invalid encrypted data")
 	}
 
-	salt := ciphertext[:16]
-	key := deriveKey([]byte(password), salt)
+	offset := 0
+
+	salt := data[offset : offset+32]
+	offset += 32
+
+	timeCost := binary.BigEndian.Uint32(data[offset : offset+4])
+	offset += 4
+
+	memoryKiB := binary.BigEndian.Uint32(data[offset : offset+4])
+	offset += 4
+
+	parallelism := data[offset]
+	offset += 1
+
+	nonce := data[offset : offset+12]
+	offset += 12
+
+	ciphertext := data[offset:]
+
+	key := deriveKeyArgon2id([]byte(password), salt, timeCost, memoryKiB, parallelism)
 
 	block, err := aes.NewCipher(key)
 	if err != nil {
@@ -69,10 +112,7 @@ func Decrypt(ciphertext []byte, password string) ([]byte, error) {
 		return []byte{}, err
 	}
 
-	nonce := ciphertext[16 : 16+aesGCM.NonceSize()]
-	rawCiphertext := ciphertext[16+aesGCM.NonceSize():]
-
-	plaintext, err := aesGCM.Open(nil, nonce, rawCiphertext, nil)
+	plaintext, err := aesGCM.Open(nil, nonce, ciphertext, nil)
 	if err != nil {
 		return []byte{}, err
 	}
